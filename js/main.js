@@ -873,7 +873,10 @@ async function initStats() {
         datasets: [{
           label: `WALS 22A: ${morphTypeCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: counts.map(([, count]) => count),
-          backgroundColor: chartPalette,
+          // Используем категориальную палитру, чтобы каждая морфологическая
+          // категория читалась как отдельная (в Swiss-4-токенной палитре они
+          // сливались в повторяющиеся чёрный/красный/серый блоки).
+          backgroundColor: counts.map((_, index) => barLanguagesPalette[index % barLanguagesPalette.length]),
           borderWidth: 0
         }]
       },
@@ -922,7 +925,9 @@ async function initStats() {
         datasets: [{
           label: `WALS 81A: ${wordOrderCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: wordOrderStats.map((item) => item.count),
-          backgroundColor: wordOrderStats.map((_, index) => chartPalette[index % chartPalette.length]),
+          // Каждый порядок слов (SOV, SVO, VSO…) получает свой цвет — так
+          // доминирующая группа (SOV/SVO) видна на фоне более редких.
+          backgroundColor: wordOrderStats.map((_, index) => barLanguagesPalette[index % barLanguagesPalette.length]),
           borderWidth: 0
         }]
       },
