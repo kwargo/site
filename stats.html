@@ -60,8 +60,10 @@
 
     <section class="section swiss-section" aria-labelledby="summary-title">
       <div class="section-main">
-        <p class="section-kicker">Сводка</p>
-        <h2 id="summary-title">Заполненность локальной выборки</h2>
+        <div class="section-heading">
+          <p class="section-kicker">Сводка</p>
+          <h2 id="summary-title">Заполненность локальной выборки</h2>
+        </div>
         <div class="stat-grid" id="summaryStats"></div>
       </div>
       <aside class="meta-sidebar" aria-label="Метаданные раздела">
@@ -85,8 +87,10 @@
 
     <section class="section swiss-section" aria-labelledby="charts-title">
       <div class="section-main">
-        <p class="section-kicker">Диаграммы</p>
-        <h2 id="charts-title">Распределение признаков</h2>
+        <div class="section-heading">
+          <p class="section-kicker">Диаграммы</p>
+          <h2 id="charts-title">Распределение признаков</h2>
+        </div>
         <div class="chart-grid">
           <figure class="chart-panel">
             <h3>Морфологические значения WALS 22A</h3>
@@ -109,7 +113,7 @@
           </div>
           <div>
             <dt>Кодировка</dt>
-            <dd>черный основной слой; красный акцент</dd>
+            <dd>категориальная палитра; 7 цветов</dd>
           </div>
           <div>
             <dt>Связанный раздел</dt>
@@ -121,8 +125,12 @@
 
     <section class="section swiss-section" aria-labelledby="interpretation-title">
       <div class="section-main">
+        <div class="section-heading">
+          <p class="section-kicker">Методика</p>
+          <h2 id="interpretation-title">Как читать эти диаграммы</h2>
+        </div>
         <div class="notice">
-          <strong id="interpretation-title">Интерпретация.</strong> Диаграммы строятся по всем языкам из data/languages.json, у которых заполнен соответствующий WALS-признак. В графике порядка слов категории VSO, VOS, OVS, OSV и языки без доминирующего порядка показаны отдельно.
+          <strong>Интерпретация.</strong> Диаграммы строятся по всем языкам из data/languages.json, у которых заполнен соответствующий WALS-признак. В графике порядка слов категории VSO, VOS, OVS, OSV и языки без доминирующего порядка показаны отдельно.
         </div>
         <p class="table-footnote"><strong>Расшифровка WALS.</strong> WALS — The World Atlas of Language Structures. На этой странице используются признаки: 81A — порядок субъекта, объекта и глагола; 22A — число грамматических категорий, выражаемых в глагольном слове; 13A — наличие и сложность тональной системы.</p>
       </div>
