@@ -52,20 +52,28 @@ const families = [
   { name: "Хмонг-мьенская", region: "Южный Китай, Юго-Восточная Азия", languages: 42, speakers: 10, examples: "хмонг, мьен" }
 ];
 
+// Muted journal palette in line with DESIGN.md: ink/graphite neutrals with
+// a single Terra Cotta accent. No gradient-heavy hues.
 const topFamilyPalette = [
-  "#533afd",
-  "#8087ff",
-  "#ff6118",
-  "#81b81a",
-  "#f44bcc",
-  "#7232f1",
-  "#ffcf5e",
-  "#50617a",
-  "#b458ff",
-  "#0099a8"
+  "#141413", // ink black
+  "#3d3d3a", // graphite
+  "#d97757", // terra cotta (accent)
+  "#73726c", // dusty gray
+  "#9c9a92", // stone
+  "#8a6a55", // warm brown
+  "#ccdbe8", // pale azure
+  "#5a6b7a", // slate blue-gray
+  "#b28b68", // sand
+  "#4a5a43"  // olive
 ];
 
-const otherFamilyColor = "#64748d";
+const otherFamilyColor = "#9c9a92"; // stone – subdued catch-all
+
+// Reusable chart palette; keeps Chart.js datasets on-brand.
+const chartPalette = [
+  "#141413", "#3d3d3a", "#d97757", "#73726c",
+  "#9c9a92", "#8a6a55", "#ccdbe8", "#5a6b7a"
+];
 
 // WALS field values come from CLDF in English. We keep them untouched in the
 // JSON (so that rebuilds stay idempotent and raw CSV stays the source of
@@ -651,10 +659,10 @@ async function initMap() {
 
       const marker = L.circleMarker([Number(language.latitude), Number(language.longitude)], {
         radius: 5,
-        color: "#ffffff",
+        color: "#faf9f5",
         weight: 1,
         fillColor: color,
-        fillOpacity: 0.85
+        fillOpacity: 0.9
       })
         .bindPopup(popupRows.join("<br>"))
         .addTo(map);
@@ -711,9 +719,9 @@ function initTopLanguagesChart() {
       datasets: [{
         label: "Носителей, млн",
         data: top.map((language) => language.speakers),
-        backgroundColor: "#533afd",
-        borderColor: "#061b31",
-        borderWidth: 1
+        backgroundColor: "#141413",
+        borderColor: "#141413",
+        borderWidth: 0
       }]
     },
     options: {
@@ -785,7 +793,9 @@ async function initStats() {
         datasets: [{
           label: `WALS 22A: ${morphTypeCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: counts.map(([, count]) => count),
-          backgroundColor: ["#533afd", "#8087ff", "#ff6118", "#81b81a", "#ffcf5e", "#f44bcc", "#0099a8"]
+          backgroundColor: chartPalette,
+          borderColor: "#ffffff",
+          borderWidth: 1
         }]
       },
       options: {
@@ -824,7 +834,8 @@ async function initStats() {
         datasets: [{
           label: `WALS 81A: ${wordOrderCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: wordOrderStats.map((item) => item.count),
-          backgroundColor: ["#533afd", "#8087ff", "#ff6118", "#81b81a", "#ffcf5e", "#f44bcc", "#0099a8"]
+          backgroundColor: "#141413",
+          borderWidth: 0
         }]
       },
       options: {
