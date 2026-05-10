@@ -224,20 +224,44 @@ function createTabulator(selector, rows, columns, options = {}) {
   });
 }
 
-function setupSelectFilters(filtersSelector, table, rows, columns) {
+function setupTableControls(filtersSelector, table, rows, columns) {
   const filters = document.querySelector(filtersSelector);
   if (!filters) return;
 
   const selects = [...filters.querySelectorAll("select[data-column]")];
+  const searchInput = filters.querySelector('input[data-role="search"]');
+  const searchableFields = columns.map((column) => column.field).filter(Boolean);
   const active = {};
+  let searchQuery = "";
+
+  const matchesSearch = (data) => {
+    if (!searchQuery) return true;
+    return searchableFields.some((field) => {
+      const value = data[field];
+      if (value === undefined || value === null) return false;
+      return String(value).toLocaleLowerCase("ru").includes(searchQuery);
+    });
+  };
 
   const applyFilters = () => {
-    const entries = Object.entries(active).filter(([, value]) => value);
-    if (entries.length === 0) {
+    const selectEntries = Object.entries(active).filter(([, value]) => value);
+    const hasSelectFilters = selectEntries.length > 0;
+    const hasSearch = Boolean(searchQuery);
+
+    if (!hasSelectFilters && !hasSearch) {
       table.clearFilter(true);
       return;
     }
-    table.setFilter(entries.map(([field, value]) => ({ field, type: "=", value })));
+
+    const selectFilters = selectEntries.map(([field, value]) => ({ field, type: "=", value }));
+    if (!hasSearch) {
+      table.setFilter(selectFilters);
+      return;
+    }
+
+    // Combine select filters (AND) with the free-text search (OR across columns)
+    // by passing the search as a custom function filter alongside the selects.
+    table.setFilter([...selectFilters, matchesSearch]);
   };
 
   selects.forEach((select) => {
@@ -263,6 +287,13 @@ function setupSelectFilters(filtersSelector, table, rows, columns) {
       applyFilters();
     });
   });
+
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      searchQuery = searchInput.value.trim().toLocaleLowerCase("ru");
+      applyFilters();
+    });
+  }
 }
 
 function setupNav() {
@@ -365,7 +396,7 @@ async function fillTypologyTable() {
 
     const table = createTabulator("#typologyTable", rows, typologyColumns);
     table.on("tableBuilt", () => {
-      setupSelectFilters("#typologyFilters", table, rows, typologyColumns);
+      setupTableControls("#typologyFilters", table, rows, typologyColumns);
     });
   } catch (error) {
     if (subtitle) {
@@ -412,7 +443,7 @@ async function fillPhonologyTable() {
 
     const table = createTabulator("#phonologyTable", rows, phonologyColumns);
     table.on("tableBuilt", () => {
-      setupSelectFilters("#phonologyFilters", table, rows, phonologyColumns);
+      setupTableControls("#phonologyFilters", table, rows, phonologyColumns);
     });
   } catch (error) {
     if (subtitle) {

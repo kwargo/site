@@ -685,6 +685,31 @@ figcaption {
   box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.12);
 }
 
+.table-filters .table-filter-search {
+  grid-column: 1 / -1;
+}
+
+.table-filters input[type="search"] {
+  width: 100%;
+  min-height: 40px;
+  padding: var(--spacing-8) var(--spacing-12);
+  color: var(--color-midnight-ink);
+  background: #ffffff;
+  border: 1px solid var(--color-stone-gray);
+  border-radius: var(--radius-inputs);
+  font: inherit;
+  outline: 0;
+}
+
+.table-filters input[type="search"]:focus {
+  border-color: var(--color-deep-violet);
+  box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.12);
+}
+
+.table-filters input[type="search"]::placeholder {
+  color: var(--color-ghost-gray);
+}
+
 .table-footnote {
   max-width: 980px;
   margin: var(--spacing-16) 0 0;
