@@ -6,11 +6,18 @@
   <title>Типологические параметры — Языки мира и их типология</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="typology">
   <a class="skip-link" href="#main">К содержанию</a>
+  <div class="grid-overlay" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
   <header class="site-header">
     <nav class="nav" aria-label="Основная навигация">
       <a class="brand" href="index.html">Типология языков</a>
@@ -27,62 +34,103 @@
   </header>
 
   <main id="main">
-    <section class="page-hero">
-      <p class="eyebrow">Tabulator</p>
-      <h1>Типологическая таблица</h1>
-      <p class="lead">Загрузка данных WALS...</p>
+    <section class="page-hero" aria-labelledby="typology-title">
+      <div class="section-main">
+        <p class="section-kicker">WALS 81A / 22A / 49A / 30A / 13A / 77A</p>
+        <h1 id="typology-title">Типологическая таблица</h1>
+        <p class="lead">Загрузка данных WALS...</p>
+      </div>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;01</p>
+        <dl>
+          <div>
+            <dt>Источник</dt>
+            <dd>WALS Online, v2020.4</dd>
+          </div>
+          <div>
+            <dt>Набор</dt>
+            <dd>data/languages.json</dd>
+          </div>
+          <div>
+            <dt>Инструмент</dt>
+            <dd>табличная фильтрация</dd>
+          </div>
+        </dl>
+      </aside>
     </section>
 
-    <section class="section">
-      <div class="notice">
-        <strong>Примечание к WALS.</strong> Таблица загружается из локального файла data/languages.json, построенного по WALS CLDF.
+    <section class="section swiss-section" aria-labelledby="typology-table-title">
+      <div class="section-main">
+        <div class="notice">
+          <strong>Примечание к WALS.</strong> Таблица загружается из локального файла data/languages.json, построенного по WALS CLDF.
+        </div>
+        <div class="table-filters typology-filters" id="typologyFilters" aria-label="Фильтры типологической таблицы">
+          <label class="table-filter-search">Поиск по таблице
+            <input type="search" data-role="search" placeholder="например, SVO, Индоевропейская, сложная тональная" autocomplete="off">
+          </label>
+          <label>Семья
+            <select data-column="1">
+              <option value="">Все</option>
+            </select>
+          </label>
+          <label>Ареал
+            <select data-column="2">
+              <option value="">Все</option>
+            </select>
+          </label>
+          <label>Порядок слов
+            <select data-column="3">
+              <option value="">Все</option>
+            </select>
+          </label>
+          <label>Морф. тип
+            <select data-column="4">
+              <option value="">Все</option>
+            </select>
+          </label>
+          <label>Тоны
+            <select data-column="7">
+              <option value="">Все</option>
+            </select>
+          </label>
+          <label>Эвиденциальность
+            <select data-column="8">
+              <option value="">Все</option>
+            </select>
+          </label>
+        </div>
+        <h2 id="typology-table-title">Сопоставление признаков</h2>
+        <div class="table-wrap">
+          <div id="typologyTable" class="data-table-host" aria-label="Таблица типологических параметров"></div>
+        </div>
+        <p class="table-footnote"><strong>Сноска.</strong> Значения WALS показаны в русском переводе, сырой вид сохранен в data/languages.json. Названия семей даны по Glottolog; для крупнейших семей приведены устойчивые русские названия, остальные сохранены в английском написании.</p>
       </div>
-      <div class="table-filters typology-filters" id="typologyFilters" aria-label="Фильтры типологической таблицы">
-        <label class="table-filter-search">Поиск по таблице
-          <input type="search" data-role="search" placeholder="например, SVO, Индоевропейская, сложная тональная" autocomplete="off">
-        </label>
-        <label>Семья
-          <select data-column="1">
-            <option value="">Все</option>
-          </select>
-        </label>
-        <label>Ареал
-          <select data-column="2">
-            <option value="">Все</option>
-          </select>
-        </label>
-        <label>Порядок слов
-          <select data-column="3">
-            <option value="">Все</option>
-          </select>
-        </label>
-        <label>Морф. тип
-          <select data-column="4">
-            <option value="">Все</option>
-          </select>
-        </label>
-        <label>Тоны
-          <select data-column="7">
-            <option value="">Все</option>
-          </select>
-        </label>
-        <label>Эвиденциальность
-          <select data-column="8">
-            <option value="">Все</option>
-          </select>
-        </label>
-      </div>
-      <div class="table-wrap">
-        <div id="typologyTable" class="data-table-host" aria-label="Таблица типологических параметров"></div>
-      </div>
-      <p class="table-footnote"><strong>Сноска.</strong> Значения WALS показаны в русском переводе, сырой вид сохранён в data/languages.json. Названия семей даны по Glottolog; для крупнейших семей приведены устоявшиеся русские названия, остальные сохранены в английском написании.</p>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;02</p>
+        <dl>
+          <div>
+            <dt>Коды WALS</dt>
+            <dd>81A, 22A, 49A, 30A, 13A, 77A</dd>
+          </div>
+          <div>
+            <dt>Операции</dt>
+            <dd>поиск, фильтр, сортировка</dd>
+          </div>
+          <div>
+            <dt>Источник</dt>
+            <dd>WALS Online, v2020.4. n&nbsp;=&nbsp;1&nbsp;614.</dd>
+          </div>
+        </dl>
+      </aside>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>Таблица построена по WALS; поиск, сортировка, фильтры и пагинация работают через Tabulator.</p>
+    <div class="footer-grid">
+      <p><strong>Колофон.</strong> Шрифт: Inter, веса 400 / 500 / 700. Сетка: 12 колонок, таблица в колонках 1–8, метаданные в колонках 9–12.</p>
+      <p>Источники: WALS Online v2020.4; Glottolog 5.3; локальный файл data/languages.json. Последнее обновление: 10&nbsp;мая&nbsp;2026.</p>
+    </div>
   </footer>
-  <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator.min.css">
   <script src="https://unpkg.com/tabulator-tables@6.2.5/dist/js/tabulator.min.js"></script>
   <script src="js/main.js"></script>
 </body>

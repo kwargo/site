@@ -364,6 +364,18 @@ figcaption,
   border-top: 1px solid var(--ink);
 }
 
+.source-list h2 {
+  margin: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.source-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .source-list li {
   padding: 12px 0;
   border-bottom: 1px solid var(--rule);
@@ -428,9 +440,11 @@ figcaption,
 }
 
 .is-100 { width: 100%; }
+.is-90 { width: 90%; }
 .is-84 { width: 84%; }
 .is-81 { width: 81%; }
 .is-48 { width: 48%; }
+.is-41 { width: 41%; }
 .is-36 { width: 36%; }
 .is-24 { width: 24%; }
 
@@ -448,7 +462,7 @@ figcaption,
   border-bottom: 1px solid var(--rule);
 }
 
-.page-hero > *,
+.page-hero > :not(.meta-sidebar),
 .section > :not(.meta-sidebar) {
   grid-column: 1 / span 8;
 }
@@ -602,7 +616,6 @@ figcaption,
 }
 
 .language-map,
-.chart-panel,
 .stat-grid,
 .image-strip,
 .source-grid {
@@ -612,6 +625,10 @@ figcaption,
 .language-map {
   min-height: 540px;
   border: 1px solid var(--rule);
+}
+
+.chart-panel .language-map {
+  margin-top: 18px;
 }
 
 .map-aside {
@@ -660,6 +677,36 @@ figcaption,
   width: 14px;
   height: 14px;
   border: 1px solid var(--ink);
+}
+
+.legend-list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--ink);
+}
+
+.legend-item {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+}
+
+.chart-grid .chart-panel {
+  grid-column: span 6;
+}
+
+.stat-grid .stat-card {
+  grid-column: span 4;
+}
+
+.chart-panel canvas {
+  width: 100%;
+  min-height: 360px;
+  margin-top: 18px;
 }
 
 .site-footer {
@@ -712,7 +759,7 @@ figcaption,
   .nav-toggle,
   .section-main,
   .meta-sidebar,
-  .page-hero > *,
+  .page-hero > :not(.meta-sidebar),
   .section > :not(.meta-sidebar),
   .split-copy > div,
   .split-copy > figure,
@@ -722,6 +769,8 @@ figcaption,
   .image-strip,
   .source-grid,
   .map-aside,
+  .chart-grid .chart-panel,
+  .stat-grid .stat-card,
   .footer-grid p:first-child,
   .footer-grid p:last-child {
     grid-column: 1 / -1;

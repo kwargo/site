@@ -6,11 +6,18 @@
   <title>Карта языков мира — Языки мира и их типология</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="map">
   <a class="skip-link" href="#main">К содержанию</a>
+  <div class="grid-overlay" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
   <header class="site-header">
     <nav class="nav" aria-label="Основная навигация">
       <a class="brand" href="index.html">Типология языков</a>
@@ -27,28 +34,97 @@
   </header>
 
   <main id="main">
-    <section class="page-hero">
-      <p class="eyebrow">Leaflet.js</p>
-      <h1>Интерактивная карта языков мира</h1>
-      <p class="lead">Координаты точек взяты из WALS CLDF. Цвет маркера показывает языковую семью; во всплывающем окне указаны язык, семья и число носителей.</p>
+    <section class="page-hero" aria-labelledby="map-title">
+      <div class="section-main">
+        <p class="section-kicker">WALS CLDF / координаты</p>
+        <h1 id="map-title">Карта языков мира</h1>
+        <p class="lead">Координаты точек взяты из WALS CLDF. Маркер показывает условный центр ареала, а не точную границу распространения языка.</p>
+      </div>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;01</p>
+        <dl>
+          <div>
+            <dt>Источник</dt>
+            <dd>WALS Online, v2020.4</dd>
+          </div>
+          <div>
+            <dt>Единица</dt>
+            <dd>язык / координата</dd>
+          </div>
+          <div>
+            <dt>Набор</dt>
+            <dd>data/languages.json</dd>
+          </div>
+        </dl>
+      </aside>
     </section>
 
-    <section class="section">
-      <div class="map-layout">
-        <div id="languageMap" class="language-map" aria-label="Интерактивная карта языков"></div>
-        <aside class="map-aside">
-          <h2>Легенда</h2>
-          <div id="mapLegend" class="legend-list"></div>
-          <p class="note">Точки WALS являются условными центрами ареалов, а не точными границами распространения языков.</p>
-        </aside>
+    <section class="section swiss-section" aria-labelledby="map-figure-title">
+      <div class="section-main">
+        <figure class="chart-panel large">
+          <h2 id="map-figure-title">Ареальные центры WALS</h2>
+          <div id="languageMap" class="language-map" aria-label="Интерактивная карта языков"></div>
+          <figcaption>Рис.&nbsp;1. Карта языков по координатам WALS. Источник: WALS Online, v2020.4. n&nbsp;=&nbsp;1&nbsp;614.</figcaption>
+        </figure>
       </div>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;02</p>
+        <dl>
+          <div>
+            <dt>Проекция</dt>
+            <dd>Web Mercator</dd>
+          </div>
+          <div>
+            <dt>Движок</dt>
+            <dd>Leaflet.js</dd>
+          </div>
+          <div>
+            <dt>Точность</dt>
+            <dd>условный центр ареала</dd>
+          </div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="section swiss-section" aria-labelledby="legend-title">
+      <div class="section-main split-copy">
+        <div>
+          <p class="section-kicker">Легенда</p>
+          <h2 id="legend-title">Семья как справочный слой</h2>
+          <p>Легенда сгруппирована по крупнейшим семьям в локальной WALS-выборке. Цвет не добавляет новую категорию к данным: черный показывает основной слой, красный — активный акцент.</p>
+        </div>
+        <figure class="chart-panel">
+          <h3>Коды семей</h3>
+          <div id="mapLegend" class="legend-list"></div>
+          <figcaption>Рис.&nbsp;2. Легенда семей на карте. Источник: WALS Online, v2020.4. n&nbsp;=&nbsp;1&nbsp;614.</figcaption>
+        </figure>
+      </div>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;03</p>
+        <dl>
+          <div>
+            <dt>Кодировка</dt>
+            <dd>семья / прочие семьи</dd>
+          </div>
+          <div>
+            <dt>Акцент</dt>
+            <dd>красный только для первого слоя</dd>
+          </div>
+          <div>
+            <dt>Следующий раздел</dt>
+            <dd><a href="typology.html">Открыть типологическую таблицу →</a></dd>
+          </div>
+        </dl>
+      </aside>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>Карта использует Leaflet.js и координаты WALS v2020.4.</p>
+    <div class="footer-grid">
+      <p><strong>Колофон.</strong> Шрифт: Inter, веса 400 / 500 / 700. Сетка: 12 колонок; карта в колонках 1–8, метаданные в колонках 9–12.</p>
+      <p>Источники: WALS Online v2020.4; OpenStreetMap для подложки. Последнее обновление: 10&nbsp;мая&nbsp;2026.</p>
+    </div>
   </footer>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/main.js"></script>
 </body>

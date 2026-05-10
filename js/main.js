@@ -52,35 +52,32 @@ const families = [
   { name: "Хмонг-мьенская", region: "Южный Китай, Юго-Восточная Азия", languages: 42, speakers: 10, examples: "хмонг, мьен" }
 ];
 
-// Muted journal palette in line with DESIGN.md: ink/graphite neutrals with
-// a single Terra Cotta accent. No gradient-heavy hues.
+// Swiss palette: near-black, hairline rule, and one red accent.
 const topFamilyPalette = [
-  "#141413", // ink black
-  "#3d3d3a", // graphite
-  "#d97757", // terra cotta (accent)
-  "#73726c", // dusty gray
-  "#9c9a92", // stone
-  "#8a6a55", // warm brown
-  "#ccdbe8", // pale azure
-  "#5a6b7a", // slate blue-gray
-  "#b28b68", // sand
-  "#4a5a43"  // olive
+  "#d92121",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a"
 ];
 
-const otherFamilyColor = "#9c9a92"; // stone – subdued catch-all
+const otherFamilyColor = "#d4d4d4";
 
-// Categorical chart palette — muted journal hues that stay within the
-// Anthropic-on-Vellum aesthetic but are still distinct enough to read
-// at a glance. Ordered so adjacent hues never collide.
+// Categorical charts stay inside the four-token Swiss palette.
 const chartPalette = [
-  "#141413", // ink black
-  "#d97757", // terra cotta
-  "#5a6b7a", // slate blue
-  "#8a6a55", // warm brown
-  "#4a5a43", // olive
-  "#b28b68", // sand
-  "#7d6b8f", // muted plum
-  "#3d3d3a"  // graphite
+  "#0a0a0a",
+  "#d92121",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a"
 ];
 
 // WALS field values come from CLDF in English. We keep them untouched in the
@@ -448,6 +445,14 @@ function setupNav() {
   });
 }
 
+function setupChartDefaults() {
+  if (!window.Chart) return;
+  Chart.defaults.color = "#0a0a0a";
+  Chart.defaults.borderColor = "#d4d4d4";
+  Chart.defaults.font.family = "Inter, IBM Plex Sans, Helvetica Neue, Arial, sans-serif";
+  Chart.defaults.font.weight = "400";
+}
+
 function setupImageLightbox() {
   const images = [...document.querySelectorAll(".hero-media img, .image-panel img, .image-strip img")];
   if (images.length === 0) return;
@@ -667,7 +672,7 @@ async function initMap() {
 
       const marker = L.circleMarker([Number(language.latitude), Number(language.longitude)], {
         radius: 5,
-        color: "#faf9f5",
+        color: "#ffffff",
         weight: 1,
         fillColor: color,
         fillOpacity: 0.9
@@ -798,26 +803,30 @@ async function initStats() {
     const counts = [...countByField(walsLanguages, "morphType").entries()]
       .sort((a, b) => b[1] - a[1]);
     new Chart(morphologyCanvas, {
-      type: "pie",
+      type: "bar",
       data: {
         labels: counts.map(([label]) => translate("morphType", label)),
         datasets: [{
           label: `WALS 22A: ${morphTypeCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: counts.map(([, count]) => count),
           backgroundColor: chartPalette,
-          borderColor: "#ffffff",
-          borderWidth: 1
+          borderWidth: 0
         }]
       },
       options: {
+        indexAxis: "y",
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+          legend: { display: false },
           tooltip: {
             callbacks: {
               label: (context) => `${context.label}: ${context.raw.toLocaleString("ru-RU")}`
             }
           }
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { precision: 0 } }
         }
       }
     });
@@ -863,6 +872,7 @@ async function initStats() {
 
 document.addEventListener("DOMContentLoaded", () => {
   setupNav();
+  setupChartDefaults();
   setupImageLightbox();
   fillTypologyTable();
   fillFamiliesTable();
