@@ -67,6 +67,122 @@ const topFamilyPalette = [
 
 const otherFamilyColor = "#64748d";
 
+// WALS field values come from CLDF in English. We keep them untouched in the
+// JSON (so that rebuilds stay idempotent and raw CSV stays the source of
+// truth) and translate at render time only.
+const WALS_TRANSLATIONS = {
+  macroarea: {
+    "Africa": "Африка",
+    "Eurasia": "Евразия",
+    "Australia": "Австралия",
+    "Papunesia": "Папунезия",
+    "North America": "Северная Америка",
+    "South America": "Южная Америка"
+  },
+  wordOrder: {
+    "SOV": "SOV",
+    "SVO": "SVO",
+    "VSO": "VSO",
+    "VOS": "VOS",
+    "OVS": "OVS",
+    "OSV": "OSV",
+    "No dominant order": "без доминирующего порядка"
+  },
+  morphType: {
+    "0-1 category per word": "0–1 категория на слово",
+    "2-3 categories per word": "2–3 категории на слово",
+    "4-5 categories per word": "4–5 категорий на слово",
+    "6-7 categories per word": "6–7 категорий на слово",
+    "8-9 categories per word": "8–9 категорий на слово",
+    "10-11 categories per word": "10–11 категорий на слово",
+    "12-13 categories per word": "12–13 категорий на слово"
+  },
+  cases: {
+    "No morphological case-marking": "без морфологических падежей",
+    "Exclusively borderline case-marking": "только пограничные показатели падежа",
+    "2 cases": "2 падежа",
+    "3 cases": "3 падежа",
+    "4 cases": "4 падежа",
+    "5 cases": "5 падежей",
+    "6-7 cases": "6–7 падежей",
+    "8-9 cases": "8–9 падежей",
+    "10 or more cases": "10 или более падежей"
+  },
+  gender: {
+    "No gender": "нет рода",
+    "Sex-based": "по полу",
+    "Non-sex-based": "не по полу"
+  },
+  tones: {
+    "No tones": "нет тонов",
+    "Simple tone system": "простая тональная система",
+    "Complex tone system": "сложная тональная система"
+  },
+  evidentiality: {
+    "Neither type of system": "нет грамматической эвиденциальности",
+    "Minimal system": "минимальная система",
+    "Maximal system": "развитая система",
+    "Both types of system": "оба типа систем"
+  },
+  consonantInventory: {
+    "Small": "малый",
+    "Moderately small": "умеренно малый",
+    "Average": "средний",
+    "Moderately large": "умеренно крупный",
+    "Large": "крупный"
+  },
+  vowelInventory: {
+    "Small (2-4)": "малый (2–4)",
+    "Average (5-6)": "средний (5–6)",
+    "Large (7-14)": "крупный (7–14)"
+  },
+  // Only widely recognised families have Russian names; the rest (200+ micro
+  // groupings and isolates) keep their Glottolog labels and are footnoted.
+  family: {
+    "Indo-European": "Индоевропейская",
+    "Sino-Tibetan": "Сино-тибетская",
+    "Austronesian": "Австронезийская",
+    "Afro-Asiatic": "Афразийская",
+    "Atlantic-Congo": "Атлантико-конголезская",
+    "Niger-Congo": "Нигеро-конголезская",
+    "Austro-Asiatic": "Австроазиатская",
+    "Dravidian": "Дравидийская",
+    "Tai-Kadai": "Тай-кадайская",
+    "Turkic": "Тюркская",
+    "Uralic": "Уральская",
+    "Mongolic": "Монгольская",
+    "Tungusic": "Тунгусо-маньчжурская",
+    "Japanese": "Японская",
+    "Korean": "Корейская",
+    "Altaic": "Алтайская",
+    "Hmong-Mien": "Хмонг-мьенская",
+    "Trans-New Guinea": "Трансновогвинейская",
+    "Pama-Nyungan": "Пама-ньюнганская",
+    "Oto-Manguean": "Ото-мангская",
+    "Mayan": "Майя",
+    "Eskimo-Aleut": "Эскимосско-алеутская",
+    "Chukotko-Kamchatkan": "Чукотско-камчатская",
+    "Kartvelian": "Картвельская",
+    "Nakh-Daghestanian": "Нахско-дагестанская",
+    "Northwest Caucasian": "Северо-западнокавказская",
+    "Yeniseian": "Енисейская",
+    "Tupian": "Тупийская",
+    "Araucanian": "Арауканская",
+    "Arawakan": "Аравакская",
+    "Cariban": "Карибская",
+    "Quechuan": "Кечуанская",
+    "Aymaran": "Аймаранская",
+    "Basque": "Баскская"
+  }
+};
+
+function translate(field, value) {
+  if (value === undefined || value === null || value === "") return value;
+  const dict = WALS_TRANSLATIONS[field];
+  if (!dict) return value;
+  return Object.prototype.hasOwnProperty.call(dict, value) ? dict[value] : value;
+}
+
 function formatNumber(value) {
   if (value === undefined || value === null || value === "") return "—";
   const number = Number(value);
@@ -162,28 +278,38 @@ async function loadPhonologyLanguages() {
   return data;
 }
 
+// Tabulator formatter that swaps the raw English value for its Russian label
+// if one exists in WALS_TRANSLATIONS. The stored field value stays in English
+// so that setFilter("=") comparisons keep working against the raw data.
+function translatedCellFormatter(cell) {
+  const field = cell.getField();
+  const raw = cell.getValue();
+  const translated = translate(field, raw);
+  return escapeHtml(translated ?? raw);
+}
+
 function getTypologyColumns() {
   return [
     { title: "Язык", field: "name", headerFilter: false, widthGrow: 2, minWidth: 140 },
-    { title: "Семья", field: "family", widthGrow: 2, minWidth: 140 },
-    { title: "Ареал", field: "macroarea", widthGrow: 1, minWidth: 110 },
-    { title: "Порядок слов", field: "wordOrder", widthGrow: 1, minWidth: 110 },
-    { title: "Морф. тип", field: "morphType", widthGrow: 2, minWidth: 160 },
-    { title: "Падежи", field: "cases", widthGrow: 2, minWidth: 160 },
-    { title: "Род", field: "gender", widthGrow: 2, minWidth: 160 },
-    { title: "Тоны", field: "tones", widthGrow: 2, minWidth: 150 },
-    { title: "Эвиденциальность", field: "evidentiality", widthGrow: 2, minWidth: 170 }
+    { title: "Семья", field: "family", widthGrow: 2, minWidth: 140, formatter: translatedCellFormatter },
+    { title: "Ареал", field: "macroarea", widthGrow: 1, minWidth: 110, formatter: translatedCellFormatter },
+    { title: "Порядок слов", field: "wordOrder", widthGrow: 1, minWidth: 140, formatter: translatedCellFormatter },
+    { title: "Морф. тип", field: "morphType", widthGrow: 2, minWidth: 180, formatter: translatedCellFormatter },
+    { title: "Падежи", field: "cases", widthGrow: 2, minWidth: 180, formatter: translatedCellFormatter },
+    { title: "Род", field: "gender", widthGrow: 2, minWidth: 160, formatter: translatedCellFormatter },
+    { title: "Тоны", field: "tones", widthGrow: 2, minWidth: 180, formatter: translatedCellFormatter },
+    { title: "Эвиденциальность", field: "evidentiality", widthGrow: 2, minWidth: 200, formatter: translatedCellFormatter }
   ];
 }
 
 function getPhonologyColumns() {
   return [
     { title: "Язык", field: "name", widthGrow: 2, minWidth: 140 },
-    { title: "Семья", field: "family", widthGrow: 2, minWidth: 140 },
-    { title: "Ареал", field: "macroarea", widthGrow: 1, minWidth: 110 },
-    { title: "Согласный инвентарь", field: "consonantInventory", widthGrow: 2, minWidth: 180 },
-    { title: "Гласный инвентарь", field: "vowelInventory", widthGrow: 2, minWidth: 170 },
-    { title: "Тоны", field: "tones", widthGrow: 2, minWidth: 160 }
+    { title: "Семья", field: "family", widthGrow: 2, minWidth: 140, formatter: translatedCellFormatter },
+    { title: "Ареал", field: "macroarea", widthGrow: 1, minWidth: 110, formatter: translatedCellFormatter },
+    { title: "Согласный инвентарь", field: "consonantInventory", widthGrow: 2, minWidth: 180, formatter: translatedCellFormatter },
+    { title: "Гласный инвентарь", field: "vowelInventory", widthGrow: 2, minWidth: 170, formatter: translatedCellFormatter },
+    { title: "Тоны", field: "tones", widthGrow: 2, minWidth: 180, formatter: translatedCellFormatter }
   ];
 }
 
@@ -234,17 +360,22 @@ function setupTableControls(filtersSelector, table, rows, columns) {
   const active = {};
   let searchQuery = "";
 
-  // Tabulator accepts only {field, type, value} objects inside an array of
-  // filters, so we combine everything into a single function-filter.
   const matchesRow = (data) => {
     for (const [field, value] of Object.entries(active)) {
       if (value && data[field] !== value) return false;
     }
     if (!searchQuery) return true;
     return searchableFields.some((field) => {
-      const cell = data[field];
-      if (cell === undefined || cell === null) return false;
-      return String(cell).toLocaleLowerCase("ru").includes(searchQuery);
+      const raw = data[field];
+      if (raw === undefined || raw === null) return false;
+      const translated = translate(field, raw);
+      // Search in both the raw English value and its Russian label so users
+      // can type either "SVO"/"russian" or "без доминирующего"/"русский".
+      return (
+        String(raw).toLocaleLowerCase("ru").includes(searchQuery) ||
+        (translated && translated !== raw &&
+          String(translated).toLocaleLowerCase("ru").includes(searchQuery))
+      );
     });
   };
 
@@ -266,12 +397,14 @@ function setupTableControls(filtersSelector, table, rows, columns) {
     select.innerHTML = '<option value="">Все</option>';
     const values = [...new Set(rows.map((row) => row[fieldName]))]
       .filter((value) => value && value !== "—")
-      .sort((a, b) => a.localeCompare(b, "ru"));
+      // Sort by the translated label so the dropdown reads naturally in Russian.
+      .sort((a, b) => String(translate(fieldName, a))
+        .localeCompare(String(translate(fieldName, b)), "ru"));
 
     values.forEach((value) => {
       const option = document.createElement("option");
-      option.value = value;
-      option.textContent = value;
+      option.value = value;                          // raw English, for setFilter("=")
+      option.textContent = translate(fieldName, value); // displayed Russian label
       select.appendChild(option);
     });
 
@@ -474,20 +607,6 @@ function countByField(rows, fieldName) {
   }, new Map());
 }
 
-function translateStatsLabel(value) {
-  const labels = {
-    "0-1 category per word": "0-1 категория на слово",
-    "2-3 categories per word": "2-3 категории на слово",
-    "4-5 categories per word": "4-5 категорий на слово",
-    "6-7 categories per word": "6-7 категорий на слово",
-    "8-9 categories per word": "8-9 категорий на слово",
-    "10-11 categories per word": "10-11 категорий на слово",
-    "12-13 categories per word": "12-13 категорий на слово",
-    "No dominant order": "без доминирующего порядка"
-  };
-  return labels[value] || value;
-}
-
 async function initMap() {
   const target = document.querySelector("#languageMap");
   if (!target || !window.L) return;
@@ -521,9 +640,9 @@ async function initMap() {
       const color = familyColorMap.get(family) || otherFamilyColor;
       const popupRows = [
         `<strong>${escapeHtml(language.name)}</strong>`,
-        `Семья: ${escapeHtml(family)}`,
-        `Ареал: ${escapeHtml(language.macroarea)}`,
-        `Порядок слов: ${escapeHtml(language.wordOrder)}`
+        `Семья: ${escapeHtml(translate("family", family))}`,
+        `Ареал: ${escapeHtml(translate("macroarea", language.macroarea))}`,
+        `Порядок слов: ${escapeHtml(translate("wordOrder", language.wordOrder))}`
       ];
 
       if (language.speakers !== undefined && language.speakers !== null && language.speakers !== "") {
@@ -552,7 +671,7 @@ async function initMap() {
     legend.innerHTML = legendItems.map((item) => `
       <div class="legend-item">
         <span class="legend-swatch" style="background:${item.color}"></span>
-        <span>${escapeHtml(item.family)}</span>
+        <span>${escapeHtml(translate("family", item.family))}</span>
       </div>
     `).join("");
   } catch (error) {
@@ -662,7 +781,7 @@ async function initStats() {
     new Chart(morphologyCanvas, {
       type: "pie",
       data: {
-        labels: counts.map(([label]) => translateStatsLabel(label)),
+        labels: counts.map(([label]) => translate("morphType", label)),
         datasets: [{
           label: `WALS 22A: ${morphTypeCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: counts.map(([, count]) => count),
@@ -686,14 +805,17 @@ async function initStats() {
   if (wordOrderCanvas && window.Chart) {
     const wordOrderCounts = countByField(walsLanguages, "wordOrder");
     const wordOrderStats = [
-      { label: "SOV", count: wordOrderCounts.get("SOV") || 0 },
-      { label: "SVO", count: wordOrderCounts.get("SVO") || 0 },
-      { label: "VSO", count: wordOrderCounts.get("VSO") || 0 },
-      { label: "VOS", count: wordOrderCounts.get("VOS") || 0 },
-      { label: "OVS", count: wordOrderCounts.get("OVS") || 0 },
-      { label: "OSV", count: wordOrderCounts.get("OSV") || 0 },
-      { label: "без доминирующего порядка", count: wordOrderCounts.get("No dominant order") || 0 }
-    ];
+      { key: "SOV" },
+      { key: "SVO" },
+      { key: "VSO" },
+      { key: "VOS" },
+      { key: "OVS" },
+      { key: "OSV" },
+      { key: "No dominant order" }
+    ].map((item) => ({
+      label: translate("wordOrder", item.key),
+      count: wordOrderCounts.get(item.key) || 0
+    }));
 
     new Chart(wordOrderCanvas, {
       type: "bar",
