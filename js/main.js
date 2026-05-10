@@ -720,6 +720,9 @@ function initTopLanguagesChart() {
   const canvas = document.querySelector("#topLanguagesChart");
   if (!canvas || !window.Chart) return;
   const top = [...chartLanguages].sort((a, b) => b.speakers - a.speakers).slice(0, 15).reverse();
+  // Colour bars with the shared journal palette so languages are visually
+  // distinct without breaking the muted DESIGN.md aesthetic.
+  const barColors = top.map((_, index) => chartPalette[index % chartPalette.length]);
   new Chart(canvas, {
     type: "bar",
     data: {
@@ -727,8 +730,8 @@ function initTopLanguagesChart() {
       datasets: [{
         label: "Носителей, млн",
         data: top.map((language) => language.speakers),
-        backgroundColor: "#141413",
-        borderColor: "#141413",
+        backgroundColor: barColors,
+        borderColor: barColors,
         borderWidth: 0
       }]
     },
