@@ -703,10 +703,20 @@ figcaption,
   grid-column: span 4;
 }
 
+/* Chart.js with maintainAspectRatio: false needs a sized parent or canvas.
+   Setting aspect-ratio on the canvas itself keeps the resize loop bounded
+   and avoids the classic "infinite height growth" bug. */
 .chart-panel canvas {
-  width: 100%;
-  min-height: 360px;
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
   margin-top: 18px;
+}
+
+/* Горизонтальная диаграмма с 15 строками — ей нужна более квадратная форма. */
+#topLanguagesChart {
+  aspect-ratio: 4 / 3;
 }
 
 .site-footer {
