@@ -96,6 +96,29 @@ const chartPalette = [
   "#0a0a0a"
 ];
 
+// Top-15 languages bar chart uses a proper categorical palette so each bar
+// reads as a distinct language. The strict four-token Swiss palette cannot
+// colour 15 bars without repeating within 3 steps, which defeats the chart.
+// Same trade-off as the WALS atlas map: data that needs per-item colour
+// coding gets per-item colour.
+const barLanguagesPalette = [
+  "#0a0a0a", // ink black
+  "#d92121", // accent red
+  "#2c5fa8", // atlas blue
+  "#3d7a5c", // forest green
+  "#c48a1e", // ochre
+  "#7a3a6b", // deep plum
+  "#8a6a55", // warm brown
+  "#4a5a43", // olive
+  "#b28b68", // sand
+  "#5a6b7a", // slate blue-gray
+  "#7d6b8f", // muted plum
+  "#6b8e4e", // moss green
+  "#a0522d", // sienna
+  "#4b6788", // steel blue
+  "#8c6e4d"  // taupe
+];
+
 // WALS field values come from CLDF in English. We keep them untouched in the
 // JSON (so that rebuilds stay idempotent and raw CSV stays the source of
 // truth) and translate at render time only.
@@ -757,9 +780,8 @@ function initTopLanguagesChart() {
   const canvas = document.querySelector("#topLanguagesChart");
   if (!canvas || !window.Chart) return;
   const top = [...chartLanguages].sort((a, b) => b.speakers - a.speakers).slice(0, 15).reverse();
-  // Colour bars with the shared journal palette so languages are visually
-  // distinct without breaking the muted DESIGN.md aesthetic.
-  const barColors = top.map((_, index) => chartPalette[index % chartPalette.length]);
+  // Каждый язык получает уникальный цвет из категориальной палитры.
+  const barColors = top.map((_, index) => barLanguagesPalette[index % barLanguagesPalette.length]);
   new Chart(canvas, {
     type: "bar",
     data: {
@@ -775,10 +797,20 @@ function initTopLanguagesChart() {
     options: {
       indexAxis: "y",
       responsive: true,
-      maintainAspectRatio: false,
+      // Chart.js сам управляет пропорциями canvas — без CSS-хаков с
+      // aspect-ratio, которые ломали попадание курсора в бар.
+      maintainAspectRatio: true,
+      aspectRatio: 4 / 3,
+      // "index" + intersect:false даёт "прилипание" к оси, из-за чего при
+      // наведении показывается соседняя колонка. "nearest" + intersect:true
+      // требует реального попадания курсора на бар — тултип всегда ловит
+      // именно ту колонку, на которую смотришь.
+      interaction: { mode: "nearest", intersect: true, axis: "y" },
       plugins: {
         legend: { display: false },
         tooltip: {
+          mode: "nearest",
+          intersect: true,
           callbacks: {
             label: (context) => `${formatNumber(context.raw)} млн`
           }
@@ -848,10 +880,14 @@ async function initStats() {
       options: {
         indexAxis: "y",
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
+        aspectRatio: 16 / 9,
+        interaction: { mode: "nearest", intersect: true, axis: "y" },
         plugins: {
           legend: { display: false },
           tooltip: {
+            mode: "nearest",
+            intersect: true,
             callbacks: {
               label: (context) => `${context.label}: ${context.raw.toLocaleString("ru-RU")}`
             }
@@ -892,8 +928,13 @@ async function initStats() {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        maintainAspectRatio: true,
+        aspectRatio: 16 / 9,
+        interaction: { mode: "nearest", intersect: true, axis: "x" },
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: "nearest", intersect: true }
+        },
         scales: {
           y: { beginAtZero: true, ticks: { precision: 0 } }
         }

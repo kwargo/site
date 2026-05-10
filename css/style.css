@@ -794,20 +794,16 @@ figcaption,
   grid-column: span 4;
 }
 
-/* Chart.js with maintainAspectRatio: false needs a sized parent or canvas.
-   Setting aspect-ratio on the canvas itself keeps the resize loop bounded
-   and avoids the classic "infinite height growth" bug. */
+/* Chart.js manages canvas sizing itself when given maintainAspectRatio: true
+   + an explicit aspectRatio option in JS. The canvas only needs to fill its
+   parent width; no CSS aspect-ratio or !important sizing is needed, and
+   that removes the tooltip mis-targeting (the previous aspect-ratio on the
+   canvas made Chart.js resize in a loop, so hover coords drifted). */
 .chart-panel canvas {
   display: block;
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 100%;
   margin-top: 18px;
-}
-
-/* Горизонтальная диаграмма с 15 строками — ей нужна более квадратная форма. */
-#topLanguagesChart {
-  aspect-ratio: 4 / 3;
 }
 
 .site-footer {
