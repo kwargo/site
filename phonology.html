@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Фонология — Языки мира и их типология</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="phonology">
+  <a class="skip-link" href="#main">К содержанию</a>
+  <header class="site-header">
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="brand" href="index.html">Типология языков</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Меню</button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Главная</a>
+        <a href="families.html">Семьи</a>
+        <a href="map.html">Карта</a>
+        <a href="typology.html">Типология</a>
+        <a class="active" href="phonology.html">Фонология</a>
+        <a href="stats.html">Статистика</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <p class="eyebrow">WALS 1A, 2A, 13A</p>
+      <h1>Фонологические особенности языков</h1>
+      <p class="lead">Фонологическая типология сравнивает размер инвентарей и наличие тонов, не сводя различия к конкретным звукам отдельного языка.</p>
+    </section>
+
+    <section class="section split-section">
+      <div>
+        <h2>От инвентаря к системе</h2>
+        <p>WALS разделяет языки по размеру согласного инвентаря, количеству качеств гласных и устройству тональной системы. Эти параметры удобны для первого сопоставления языков из разных семей.</p>
+      </div>
+      <figure class="image-panel">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/IPA_chart_2020.svg" alt="Таблица Международного фонетического алфавита 2020 года">
+        <figcaption>Таблица Международного фонетического алфавита помогает описывать звуковые системы единым набором символов.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="table-filters phonology-filters" id="phonologyFilters" aria-label="Фильтры фонологической таблицы">
+        <label>Семья
+          <select data-column="1">
+            <option value="">Все</option>
+          </select>
+        </label>
+        <label>Ареал
+          <select data-column="2">
+            <option value="">Все</option>
+          </select>
+        </label>
+        <label>Согласный инвентарь
+          <select data-column="3">
+            <option value="">Все</option>
+          </select>
+        </label>
+        <label>Гласный инвентарь
+          <select data-column="4">
+            <option value="">Все</option>
+          </select>
+        </label>
+        <label>Тоны
+          <select data-column="5">
+            <option value="">Все</option>
+          </select>
+        </label>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table compact-table" id="phonologyTable">
+          <caption>Фонологические системы по WALS</caption>
+          <thead>
+            <tr>
+              <th>Язык</th>
+              <th>Семья</th>
+              <th>Ареал</th>
+              <th>Согласный инвентарь</th>
+              <th>Гласный инвентарь</th>
+              <th>Тоны</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="table-footnote"><strong>Сноска.</strong> WALS — The World Atlas of Language Structures, типологический атлас языковых признаков. Цифры в комментарии обозначают номера признаков WALS: 1A — размер согласного инвентаря, 2A — размер инвентаря гласных качеств, 13A — наличие и сложность тональной системы.</p>
+    </section>
+
+    <section class="section image-strip">
+      <figure>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cuneiform_Writing_on_Clay_Tablet.jpg" alt="Клинописная табличка">
+        <figcaption>Письменность фиксирует язык, но не исчерпывает его фонологическую систему.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Phoenician_alphabet.svg" alt="Финикийский алфавит">
+        <figcaption>Алфавитные системы часто передают часть фонологических противопоставлений.</figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Фонологические значения приведены по WALS v2020.4.</p>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

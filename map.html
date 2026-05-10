@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Карта языков мира — Языки мира и их типология</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="map">
+  <a class="skip-link" href="#main">К содержанию</a>
+  <header class="site-header">
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="brand" href="index.html">Типология языков</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Меню</button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Главная</a>
+        <a href="families.html">Семьи</a>
+        <a class="active" href="map.html">Карта</a>
+        <a href="typology.html">Типология</a>
+        <a href="phonology.html">Фонология</a>
+        <a href="stats.html">Статистика</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <p class="eyebrow">Leaflet.js</p>
+      <h1>Интерактивная карта языков мира</h1>
+      <p class="lead">Координаты точек взяты из WALS CLDF. Цвет маркера показывает языковую семью; во всплывающем окне указаны язык, семья и число носителей.</p>
+    </section>
+
+    <section class="section">
+      <div class="map-layout">
+        <div id="languageMap" class="language-map" aria-label="Интерактивная карта языков"></div>
+        <aside class="map-aside">
+          <h2>Легенда</h2>
+          <div id="mapLegend" class="legend-list"></div>
+          <p class="note">Точки WALS являются условными центрами ареалов, а не точными границами распространения языков.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Карта использует Leaflet.js и координаты WALS v2020.4.</p>
+  </footer>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Статистика — Языки мира и их типология</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="stats">
+  <a class="skip-link" href="#main">К содержанию</a>
+  <header class="site-header">
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="brand" href="index.html">Типология языков</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Меню</button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Главная</a>
+        <a href="families.html">Семьи</a>
+        <a href="map.html">Карта</a>
+        <a href="typology.html">Типология</a>
+        <a href="phonology.html">Фонология</a>
+        <a class="active" href="stats.html">Статистика</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <p class="eyebrow">Chart.js</p>
+      <h1>Статистика типологических параметров</h1>
+      <p class="lead">Загрузка статистики WALS...</p>
+    </section>
+
+    <section class="section stat-grid" id="summaryStats"></section>
+
+    <section class="section chart-grid">
+      <div class="chart-panel">
+        <h2>Морфологические значения WALS 22A</h2>
+        <canvas id="morphologyChart" aria-label="Круговая диаграмма морфологических типов"></canvas>
+      </div>
+      <div class="chart-panel">
+        <h2>Порядок слов по WALS 81A</h2>
+        <canvas id="wordOrderChart" aria-label="Столбчатая диаграмма SOV, SVO и остальные"></canvas>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="notice">
+        <strong>Интерпретация.</strong> Диаграммы строятся по всем языкам из data/languages.json, у которых заполнен соответствующий WALS-признак. В графике порядка слов категории VSO, VOS, OVS, OSV и языки без доминирующего порядка показаны отдельно.
+      </div>
+      <p class="table-footnote"><strong>Расшифровка WALS.</strong> WALS — The World Atlas of Language Structures. На этой странице используются признаки: 81A — порядок субъекта, объекта и глагола; 22A — число грамматических категорий, выражаемых в глагольном слове; 13A — наличие и сложность тональной системы.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Диаграммы построены через Chart.js на локальной выборке WALS CLDF.</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

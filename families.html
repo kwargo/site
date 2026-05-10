@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Языковые семьи — Языки мира и их типология</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="families">
+  <a class="skip-link" href="#main">К содержанию</a>
+  <header class="site-header">
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="brand" href="index.html">Типология языков</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Меню</button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Главная</a>
+        <a class="active" href="families.html">Семьи</a>
+        <a href="map.html">Карта</a>
+        <a href="typology.html">Типология</a>
+        <a href="phonology.html">Фонология</a>
+        <a href="stats.html">Статистика</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <p class="eyebrow">Генеалогическая классификация</p>
+      <h1>Языковые семьи</h1>
+      <p class="lead">Одна семья объединяет языки, происходящие от общего предка. Типологическое сходство может совпадать с родством, но не обязано совпадать с ним.</p>
+    </section>
+
+    <section class="section split-section">
+      <div>
+        <h2>Семьи и изоляты в Glottolog</h2>
+        <p>Glottolog 5.3 фиксирует 7 674 живых устных L1-языка, 246 семей и 183 изолята. Таблица ниже дает крупные семьи и типологически значимые группы с примерными масштабами.</p>
+      </div>
+      <figure class="image-panel">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Human_Language_Families_Map.PNG" alt="Карта языковых семей мира">
+        <figcaption>Карта языковых семей мира с Wikimedia Commons.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="table-wrap">
+        <table class="data-table compact-table" id="familiesTable">
+          <caption>Крупные языковые семьи и группы</caption>
+          <thead>
+            <tr>
+              <th>Семья / группа</th>
+              <th>Регион</th>
+              <th>Языков в Glottolog</th>
+              <th>Носителей, млн</th>
+              <th>Примеры</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Chart.js</p>
+        <h2>Топ-15 языков по числу носителей</h2>
+      </div>
+      <div class="chart-panel large">
+        <canvas id="topLanguagesChart" aria-label="Горизонтальная диаграмма топ-15 языков по числу носителей"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Классификация: Glottolog 5.3; численность носителей округлена по Wikipedia/Ethnologue-таблицам и языковым статьям.</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
