@@ -234,34 +234,27 @@ function setupTableControls(filtersSelector, table, rows, columns) {
   const active = {};
   let searchQuery = "";
 
-  const matchesSearch = (data) => {
+  // Tabulator accepts only {field, type, value} objects inside an array of
+  // filters, so we combine everything into a single function-filter.
+  const matchesRow = (data) => {
+    for (const [field, value] of Object.entries(active)) {
+      if (value && data[field] !== value) return false;
+    }
     if (!searchQuery) return true;
     return searchableFields.some((field) => {
-      const value = data[field];
-      if (value === undefined || value === null) return false;
-      return String(value).toLocaleLowerCase("ru").includes(searchQuery);
+      const cell = data[field];
+      if (cell === undefined || cell === null) return false;
+      return String(cell).toLocaleLowerCase("ru").includes(searchQuery);
     });
   };
 
   const applyFilters = () => {
-    const selectEntries = Object.entries(active).filter(([, value]) => value);
-    const hasSelectFilters = selectEntries.length > 0;
-    const hasSearch = Boolean(searchQuery);
-
-    if (!hasSelectFilters && !hasSearch) {
+    const hasAny = searchQuery || Object.values(active).some(Boolean);
+    if (!hasAny) {
       table.clearFilter(true);
       return;
     }
-
-    const selectFilters = selectEntries.map(([field, value]) => ({ field, type: "=", value }));
-    if (!hasSearch) {
-      table.setFilter(selectFilters);
-      return;
-    }
-
-    // Combine select filters (AND) with the free-text search (OR across columns)
-    // by passing the search as a custom function filter alongside the selects.
-    table.setFilter([...selectFilters, matchesSearch]);
+    table.setFilter(matchesRow);
   };
 
   selects.forEach((select) => {
