@@ -70,20 +70,7 @@
         </label>
       </div>
       <div class="table-wrap">
-        <table class="data-table compact-table" id="phonologyTable">
-          <caption>Фонологические системы по WALS</caption>
-          <thead>
-            <tr>
-              <th>Язык</th>
-              <th>Семья</th>
-              <th>Ареал</th>
-              <th>Согласный инвентарь</th>
-              <th>Гласный инвентарь</th>
-              <th>Тоны</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <div id="phonologyTable" class="data-table-host compact-table-host" aria-label="Таблица фонологических систем по WALS"></div>
       </div>
       <p class="table-footnote"><strong>Сноска.</strong> WALS — The World Atlas of Language Structures, типологический атлас языковых признаков. Цифры в комментарии обозначают номера признаков WALS: 1A — размер согласного инвентаря, 2A — размер инвентаря гласных качеств, 13A — наличие и сложность тональной системы.</p>
     </section>
@@ -101,8 +88,10 @@
   </main>
 
   <footer class="site-footer">
-    <p>Фонологические значения приведены по WALS v2020.4.</p>
+    <p>Фонологические значения приведены по WALS v2020.4. Поиск, сортировка и фильтры работают через Tabulator.</p>
   </footer>
+  <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator.min.css">
+  <script src="https://unpkg.com/tabulator-tables@6.2.5/dist/js/tabulator.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

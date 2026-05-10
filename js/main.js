@@ -52,30 +52,6 @@ const families = [
   { name: "Хмонг-мьенская", region: "Южный Китай, Юго-Восточная Азия", languages: 42, speakers: 10, examples: "хмонг, мьен" }
 ];
 
-const phonologyRows = [
-  ["Мандаринский китайский", "Сино-тибетская", "средний", "средний", "сложная тональная система", "WALS: 1A, 2A, 13A"],
-  ["Английский", "Индоевропейская", "средний", "крупный", "нет тонов", "WALS: 1A, 2A, 13A"],
-  ["Русский", "Индоевропейская", "умеренно крупный", "средний", "нет тонов", "WALS: 1A, 2A, 13A"],
-  ["Турецкий", "Тюркская", "средний", "крупный", "нет тонов", "WALS: 1A, 2A, 13A"],
-  ["Вьетнамский", "Австроазиатская", "средний", "крупный", "сложная тональная система", "WALS: 1A, 2A, 13A"],
-  ["Хауса", "Афразийская", "умеренно крупный", "средний", "простая тональная система", "WALS: 1A, 2A, 13A"],
-  ["Тагальский", "Австронезийская", "умеренно малый", "средний", "нет тонов", "WALS: 1A, 2A, 13A"],
-  ["Бирманский", "Сино-тибетская", "умеренно крупный", "крупный", "сложная тональная система", "WALS: 1A, 2A, 13A"],
-  ["Абхазский", "Северо-западнокавказская", "крупный", "малый", "нет тонов", "WALS: 1A, 2A, 13A"],
-  ["Лезгинский", "Нахско-дагестанская", "крупный", "средний", "нет тонов", "WALS: 1A, 2A, 13A"],
-  ["Финский", "Уральская", "умеренно малый", "крупный", "нет тонов", "WALS: 1A, 2A, 13A"],
-  ["Зулу", "Атлантико-конголезская", "умеренно крупный", "средний", "простая тональная система", "WALS: 1A, 2A, 13A"],
-  ["Йоруба", "Атлантико-конголезская", "умеренно малый", "крупный", "сложная тональная система", "WALS: 1A, 2A, 13A"],
-  ["Западногренландский", "Эскимосско-алеутская", "средний", "малый", "нет тонов", "WALS: 1A, 2A, 13A"],
-  ["Хмонг Нджуа", "Хмонг-мьенская", "крупный", "средний", "сложная тональная система", "WALS: 1A, 2A, 13A"]
-];
-
-const wordOrderGlobal = [
-  { label: "SOV", count: 564 },
-  { label: "SVO", count: 488 },
-  { label: "остальные", count: 324 }
-];
-
 const topFamilyPalette = [
   "#533afd",
   "#8087ff",
@@ -110,10 +86,6 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-}
-
-function escapeRegex(value) {
-  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 async function loadWalsLanguages() {
@@ -192,320 +164,88 @@ async function loadPhonologyLanguages() {
 
 function getTypologyColumns() {
   return [
-    { data: "name" },
-    { data: "family" },
-    { data: "macroarea" },
-    { data: "wordOrder" },
-    { data: "morphType" },
-    { data: "cases" },
-    { data: "gender" },
-    { data: "tones" },
-    { data: "evidentiality" }
+    { title: "Язык", field: "name", headerFilter: false, widthGrow: 2, minWidth: 140 },
+    { title: "Семья", field: "family", widthGrow: 2, minWidth: 140 },
+    { title: "Ареал", field: "macroarea", widthGrow: 1, minWidth: 110 },
+    { title: "Порядок слов", field: "wordOrder", widthGrow: 1, minWidth: 110 },
+    { title: "Морф. тип", field: "morphType", widthGrow: 2, minWidth: 160 },
+    { title: "Падежи", field: "cases", widthGrow: 2, minWidth: 160 },
+    { title: "Род", field: "gender", widthGrow: 2, minWidth: 160 },
+    { title: "Тоны", field: "tones", widthGrow: 2, minWidth: 150 },
+    { title: "Эвиденциальность", field: "evidentiality", widthGrow: 2, minWidth: 170 }
   ];
 }
 
 function getPhonologyColumns() {
   return [
-    { data: "name" },
-    { data: "family" },
-    { data: "macroarea" },
-    { data: "consonantInventory" },
-    { data: "vowelInventory" },
-    { data: "tones" }
+    { title: "Язык", field: "name", widthGrow: 2, minWidth: 140 },
+    { title: "Семья", field: "family", widthGrow: 2, minWidth: 140 },
+    { title: "Ареал", field: "macroarea", widthGrow: 1, minWidth: 110 },
+    { title: "Согласный инвентарь", field: "consonantInventory", widthGrow: 2, minWidth: 180 },
+    { title: "Гласный инвентарь", field: "vowelInventory", widthGrow: 2, minWidth: 170 },
+    { title: "Тоны", field: "tones", widthGrow: 2, minWidth: 160 }
   ];
 }
 
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const existing = document.querySelector(`script[src="${src}"]`);
-    if (existing) {
-      if (window.DataTable) {
-        resolve();
-      } else {
-        reject(new Error("Скрипт уже подключен, но DataTables global не появился."));
+function createTabulator(selector, rows, columns, options = {}) {
+  if (!window.Tabulator) {
+    throw new Error("Tabulator не загружен. Проверьте подключение tabulator-tables в HTML.");
+  }
+  return new Tabulator(selector, {
+    data: rows,
+    columns,
+    layout: "fitColumns",
+    pagination: true,
+    paginationSize: 50,
+    paginationSizeSelector: [25, 50, 100, 200],
+    paginationCounter: "rows",
+    initialSort: [{ column: "name", dir: "asc" }],
+    placeholder: "Совпадений не найдено",
+    locale: "ru",
+    langs: {
+      ru: {
+        pagination: {
+          first: "Первая",
+          first_title: "Первая страница",
+          last: "Последняя",
+          last_title: "Последняя страница",
+          prev: "Предыдущая",
+          prev_title: "Предыдущая страница",
+          next: "Следующая",
+          next_title: "Следующая страница",
+          all: "Все",
+          counter: { showing: "Показаны", of: "из", rows: "записей" },
+          page_size: "Записей на странице",
+          page_title: "Показать страницу"
+        }
       }
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.addEventListener("load", resolve, { once: true });
-    script.addEventListener("error", () => reject(new Error(`Не удалось загрузить ${src}`)), { once: true });
-    document.head.appendChild(script);
+    },
+    ...options
   });
 }
 
-async function ensureDataTableLoaded() {
-  if (window.DataTable) return true;
-
-  const cdnUrls = [
-    "https://cdn.jsdelivr.net/npm/datatables.net@2.0.8/js/dataTables.min.js",
-    "https://unpkg.com/datatables.net@2.0.8/js/dataTables.min.js"
-  ];
-
-  for (const src of cdnUrls) {
-    try {
-      await loadScript(src);
-      if (window.DataTable) return true;
-    } catch (error) {
-      // Some browser lockdown extensions block third-party table libraries.
-      // The page still renders through the local fallback below.
-    }
-  }
-
-  return false;
-}
-
-function renderPlainTypologyRows(rows, visibleRows = rows) {
-  const tbody = document.querySelector("#typologyTable tbody");
-  if (!tbody) return;
-  tbody.innerHTML = visibleRows.map((row) => `
-    <tr>
-      <td>${escapeHtml(row.name)}</td>
-      <td>${escapeHtml(row.family)}</td>
-      <td>${escapeHtml(row.macroarea)}</td>
-      <td>${escapeHtml(row.wordOrder)}</td>
-      <td>${escapeHtml(row.morphType)}</td>
-      <td>${escapeHtml(row.cases)}</td>
-      <td>${escapeHtml(row.gender)}</td>
-      <td>${escapeHtml(row.tones)}</td>
-      <td>${escapeHtml(row.evidentiality)}</td>
-    </tr>
-  `).join("");
-}
-
-function setupFallbackTypology(rows, typologyColumns) {
-  const filters = document.querySelector("#typologyFilters");
-  const tableWrap = document.querySelector("#typologyTable")?.closest(".table-wrap");
-  if (!filters || !tableWrap) return;
-
-  let page = 1;
-  const pageSize = 50;
-  const state = {
-    search: "",
-    filters: {}
-  };
-
-  let controls = document.querySelector("#typologyFallbackControls");
-  if (!controls) {
-    controls = document.createElement("div");
-    controls.id = "typologyFallbackControls";
-    controls.className = "dt-layout-row typology-fallback-controls";
-    controls.innerHTML = `
-      <label class="dt-search">Поиск:
-        <input type="search" id="typologyFallbackSearch" autocomplete="off">
-      </label>
-      <div class="dt-paging">
-        <button type="button" id="typologyPrevPage">Предыдущая</button>
-        <span id="typologyPageInfo"></span>
-        <button type="button" id="typologyNextPage">Следующая</button>
-      </div>
-    `;
-    tableWrap.insertAdjacentElement("beforebegin", controls);
-  }
-
-  const searchInput = controls.querySelector("#typologyFallbackSearch");
-  const previousButton = controls.querySelector("#typologyPrevPage");
-  const nextButton = controls.querySelector("#typologyNextPage");
-  const pageInfo = controls.querySelector("#typologyPageInfo");
-  const selects = [...filters.querySelectorAll("select[data-column]")];
-
-  const getFilteredRows = () => {
-    const search = state.search.trim().toLocaleLowerCase("ru");
-    return rows.filter((row) => {
-      const matchesSearch = !search || typologyColumns.some((column) =>
-        String(row[column.data]).toLocaleLowerCase("ru").includes(search)
-      );
-      const matchesFilters = Object.entries(state.filters).every(([fieldName, value]) =>
-        !value || row[fieldName] === value
-      );
-      return matchesSearch && matchesFilters;
-    });
-  };
-
-  const renderPage = () => {
-    const filteredRows = getFilteredRows();
-    const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
-    page = Math.min(page, pageCount);
-    const start = (page - 1) * pageSize;
-    const visibleRows = filteredRows.slice(start, start + pageSize);
-    renderPlainTypologyRows(rows, visibleRows);
-    pageInfo.textContent = `Страница ${page} из ${pageCount}; найдено ${filteredRows.length.toLocaleString("ru-RU")}`;
-    previousButton.disabled = page <= 1;
-    nextButton.disabled = page >= pageCount;
-  };
-
-  selects.forEach((select) => {
-    const columnIndex = Number(select.dataset.column);
-    const fieldName = typologyColumns[columnIndex]?.data;
-    if (!fieldName) return;
-
-    select.innerHTML = '<option value="">Все</option>';
-    const values = [...new Set(rows.map((row) => row[fieldName]))]
-      .filter((value) => value && value !== "—")
-      .sort((a, b) => a.localeCompare(b, "ru"));
-
-    values.forEach((value) => {
-      const option = document.createElement("option");
-      option.value = value;
-      option.textContent = value;
-      select.appendChild(option);
-    });
-
-    select.addEventListener("change", () => {
-      state.filters[fieldName] = select.value;
-      page = 1;
-      renderPage();
-    });
-  });
-
-  searchInput.addEventListener("input", () => {
-    state.search = searchInput.value;
-    page = 1;
-    renderPage();
-  });
-  previousButton.addEventListener("click", () => {
-    page -= 1;
-    renderPage();
-  });
-  nextButton.addEventListener("click", () => {
-    page += 1;
-    renderPage();
-  });
-
-  renderPage();
-}
-
-function renderPlainPhonologyRows(rows, visibleRows = rows) {
-  const tbody = document.querySelector("#phonologyTable tbody");
-  if (!tbody) return;
-  tbody.innerHTML = visibleRows.map((row) => `
-    <tr>
-      <td>${escapeHtml(row.name)}</td>
-      <td>${escapeHtml(row.family)}</td>
-      <td>${escapeHtml(row.macroarea)}</td>
-      <td>${escapeHtml(row.consonantInventory)}</td>
-      <td>${escapeHtml(row.vowelInventory)}</td>
-      <td>${escapeHtml(row.tones)}</td>
-    </tr>
-  `).join("");
-}
-
-function setupFallbackPhonology(rows, phonologyColumns) {
-  const filters = document.querySelector("#phonologyFilters");
-  const tableWrap = document.querySelector("#phonologyTable")?.closest(".table-wrap");
-  if (!filters || !tableWrap) return;
-
-  let page = 1;
-  const pageSize = 50;
-  const state = {
-    search: "",
-    filters: {}
-  };
-
-  let controls = document.querySelector("#phonologyFallbackControls");
-  if (!controls) {
-    controls = document.createElement("div");
-    controls.id = "phonologyFallbackControls";
-    controls.className = "dt-layout-row phonology-fallback-controls";
-    controls.innerHTML = `
-      <label class="dt-search">Поиск:
-        <input type="search" id="phonologyFallbackSearch" autocomplete="off">
-      </label>
-      <div class="dt-paging">
-        <button type="button" id="phonologyPrevPage">Предыдущая</button>
-        <span id="phonologyPageInfo"></span>
-        <button type="button" id="phonologyNextPage">Следующая</button>
-      </div>
-    `;
-    tableWrap.insertAdjacentElement("beforebegin", controls);
-  }
-
-  const searchInput = controls.querySelector("#phonologyFallbackSearch");
-  const previousButton = controls.querySelector("#phonologyPrevPage");
-  const nextButton = controls.querySelector("#phonologyNextPage");
-  const pageInfo = controls.querySelector("#phonologyPageInfo");
-  const selects = [...filters.querySelectorAll("select[data-column]")];
-
-  const getFilteredRows = () => {
-    const search = state.search.trim().toLocaleLowerCase("ru");
-    return rows.filter((row) => {
-      const matchesSearch = !search || phonologyColumns.some((column) =>
-        String(row[column.data]).toLocaleLowerCase("ru").includes(search)
-      );
-      const matchesFilters = Object.entries(state.filters).every(([fieldName, value]) =>
-        !value || row[fieldName] === value
-      );
-      return matchesSearch && matchesFilters;
-    });
-  };
-
-  const renderPage = () => {
-    const filteredRows = getFilteredRows();
-    const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
-    page = Math.min(page, pageCount);
-    const start = (page - 1) * pageSize;
-    const visibleRows = filteredRows.slice(start, start + pageSize);
-    renderPlainPhonologyRows(rows, visibleRows);
-    pageInfo.textContent = `Страница ${page} из ${pageCount}; найдено ${filteredRows.length.toLocaleString("ru-RU")}`;
-    previousButton.disabled = page <= 1;
-    nextButton.disabled = page >= pageCount;
-  };
-
-  selects.forEach((select) => {
-    const columnIndex = Number(select.dataset.column);
-    const fieldName = phonologyColumns[columnIndex]?.data;
-    if (!fieldName) return;
-
-    select.innerHTML = '<option value="">Все</option>';
-    const values = [...new Set(rows.map((row) => row[fieldName]))]
-      .filter((value) => value && value !== "—")
-      .sort((a, b) => a.localeCompare(b, "ru"));
-
-    values.forEach((value) => {
-      const option = document.createElement("option");
-      option.value = value;
-      option.textContent = value;
-      select.appendChild(option);
-    });
-
-    select.addEventListener("change", () => {
-      state.filters[fieldName] = select.value;
-      page = 1;
-      renderPage();
-    });
-  });
-
-  searchInput.addEventListener("input", () => {
-    state.search = searchInput.value;
-    page = 1;
-    renderPage();
-  });
-  previousButton.addEventListener("click", () => {
-    page -= 1;
-    renderPage();
-  });
-  nextButton.addEventListener("click", () => {
-    page += 1;
-    renderPage();
-  });
-
-  renderPage();
-}
-
-function setupTypologyFilters(rows, typologyColumns, dataTable) {
-  const filters = document.querySelector("#typologyFilters");
+function setupSelectFilters(filtersSelector, table, rows, columns) {
+  const filters = document.querySelector(filtersSelector);
   if (!filters) return;
 
   const selects = [...filters.querySelectorAll("select[data-column]")];
+  const active = {};
+
+  const applyFilters = () => {
+    const entries = Object.entries(active).filter(([, value]) => value);
+    if (entries.length === 0) {
+      table.clearFilter(true);
+      return;
+    }
+    table.setFilter(entries.map(([field, value]) => ({ field, type: "=", value })));
+  };
 
   selects.forEach((select) => {
     const columnIndex = Number(select.dataset.column);
-    const fieldName = typologyColumns[columnIndex]?.data;
+    const column = columns[columnIndex];
+    const fieldName = column?.field;
     if (!fieldName) return;
 
-    const currentValue = select.value;
     select.innerHTML = '<option value="">Все</option>';
     const values = [...new Set(rows.map((row) => row[fieldName]))]
       .filter((value) => value && value !== "—")
@@ -517,19 +257,10 @@ function setupTypologyFilters(rows, typologyColumns, dataTable) {
       option.textContent = value;
       select.appendChild(option);
     });
-    select.value = currentValue;
-  });
 
-  selects.forEach((select) => {
     select.addEventListener("change", () => {
-      selects.forEach((filterSelect) => {
-        const columnIndex = Number(filterSelect.dataset.column);
-        const value = filterSelect.value;
-        dataTable
-          .column(columnIndex)
-          .search(value ? `^${escapeRegex(value)}$` : "", true, false);
-      });
-      dataTable.draw();
+      active[fieldName] = select.value;
+      applyFilters();
     });
   });
 }
@@ -632,33 +363,10 @@ async function fillTypologyTable() {
       subtitle.textContent = `Загружено ${rows.length.toLocaleString("ru-RU")} языков из WALS.`;
     }
 
-    const hasDataTable = await ensureDataTableLoaded();
-    if (!hasDataTable) {
-      setupFallbackTypology(rows, typologyColumns);
-      return;
-    }
-
-    const dataTable = new DataTable("#typologyTable", {
-      data: rows,
-      columns: typologyColumns,
-      pageLength: 50,
-      order: [[0, "asc"]],
-      language: {
-        search: "Поиск:",
-        lengthMenu: "Показать _MENU_ записей",
-        info: "Показаны _START_-_END_ из _TOTAL_",
-        infoEmpty: "Нет записей",
-        zeroRecords: "Совпадений не найдено",
-        paginate: {
-          first: "Первая",
-          last: "Последняя",
-          next: "Следующая",
-          previous: "Предыдущая"
-        }
-      }
+    const table = createTabulator("#typologyTable", rows, typologyColumns);
+    table.on("tableBuilt", () => {
+      setupSelectFilters("#typologyFilters", table, rows, typologyColumns);
     });
-
-    setupTypologyFilters(rows, typologyColumns, dataTable);
   } catch (error) {
     if (subtitle) {
       subtitle.textContent = `Ошибка загрузки данных WALS: ${error.message}`;
@@ -702,7 +410,10 @@ async function fillPhonologyTable() {
       subtitle.textContent = `Загружено ${rows.length.toLocaleString("ru-RU")} языков из WALS; доступны признаки 1A, 2A и 13A.`;
     }
 
-    setupFallbackPhonology(rows, phonologyColumns);
+    const table = createTabulator("#phonologyTable", rows, phonologyColumns);
+    table.on("tableBuilt", () => {
+      setupSelectFilters("#phonologyFilters", table, rows, phonologyColumns);
+    });
   } catch (error) {
     if (subtitle) {
       subtitle.textContent = `Ошибка загрузки фонологических данных WALS: ${error.message}`;

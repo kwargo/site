@@ -538,55 +538,114 @@ figcaption {
   background: rgba(185, 185, 249, 0.16);
 }
 
-.dt-container {
-  padding: var(--spacing-20);
-  color: var(--color-slate-blue);
+/* ===== Tabulator theme ===== */
+.data-table-host {
+  min-width: 980px;
+}
+
+.compact-table-host {
+  min-width: 760px;
+}
+
+.tabulator {
+  background: var(--color-platinum-white);
+  border: 0;
+  border-radius: var(--radius-cards);
+  color: var(--color-midnight-ink);
   font-family: var(--font-sohne-var);
+  font-size: var(--text-body);
+  line-height: 1.4;
 }
 
-.dt-container .data-table {
-  min-width: 1050px;
-}
-
-.dt-layout-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-16);
-  margin-bottom: var(--spacing-16);
-}
-
-.dt-layout-row:last-child {
-  margin: var(--spacing-16) 0 0;
-}
-
-.dt-search,
-.dt-length,
-.dt-info,
-.dt-paging {
+.tabulator .tabulator-header {
+  background: var(--color-porcelain-white);
+  border-bottom: 1px solid var(--color-powder-blue);
   color: var(--color-slate-blue);
-  font-size: var(--text-caption);
-  line-height: 1.45;
+  font-weight: 400;
 }
 
-.dt-search input,
-.dt-length select {
-  min-height: 36px;
-  margin-left: var(--spacing-8);
+.tabulator .tabulator-header .tabulator-col {
+  background: var(--color-porcelain-white);
+  border-right: 1px solid var(--color-powder-blue);
+}
+
+.tabulator .tabulator-header .tabulator-col .tabulator-col-content {
+  padding: var(--spacing-12) var(--spacing-16);
+}
+
+.tabulator .tabulator-header .tabulator-col .tabulator-col-title {
+  font-size: var(--text-caption);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.tabulator .tabulator-row {
+  background: transparent;
+  border-bottom: 1px solid var(--color-powder-blue);
+  min-height: 0;
+}
+
+.tabulator .tabulator-row.tabulator-row-even {
+  background: rgba(248, 250, 253, 0.72);
+}
+
+.tabulator .tabulator-row:hover,
+.tabulator .tabulator-row.tabulator-row-even:hover {
+  background: rgba(185, 185, 249, 0.16);
+}
+
+.tabulator .tabulator-row .tabulator-cell {
+  padding: var(--spacing-12) var(--spacing-16);
+  border-right: 1px solid var(--color-powder-blue);
+  vertical-align: top;
+}
+
+.tabulator .tabulator-footer {
+  background: var(--color-porcelain-white);
+  border-top: 1px solid var(--color-powder-blue);
+  color: var(--color-slate-blue);
+  padding: var(--spacing-12) var(--spacing-16);
+  font-size: var(--text-caption);
+}
+
+.tabulator .tabulator-footer .tabulator-page {
+  min-height: 34px;
+  margin-left: var(--spacing-4);
   padding: var(--spacing-8) var(--spacing-12);
+  color: var(--color-deep-violet);
+  background: transparent;
+  border: 1px solid var(--color-washed-violet);
+  border-radius: var(--radius-buttons);
+  font: inherit;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.tabulator .tabulator-footer .tabulator-page.active,
+.tabulator .tabulator-footer .tabulator-page:not(.disabled):hover {
+  color: var(--color-platinum-white);
+  background: var(--color-deep-violet);
+  border-color: var(--color-deep-violet);
+}
+
+.tabulator .tabulator-footer .tabulator-page.disabled {
+  color: var(--color-ghost-gray);
+  background: var(--color-porcelain-white);
+  border-color: var(--color-powder-blue);
+  cursor: not-allowed;
+}
+
+.tabulator .tabulator-footer .tabulator-page-size {
+  min-height: 34px;
+  margin: 0 var(--spacing-8);
+  padding: var(--spacing-4) var(--spacing-8);
   color: var(--color-midnight-ink);
   background: var(--color-platinum-white);
   border: 1px solid var(--color-stone-gray);
   border-radius: var(--radius-inputs);
   font: inherit;
-  outline: 0;
-}
-
-.dt-search input:focus,
-.dt-length select:focus {
-  border-color: var(--color-deep-violet);
-  box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.12);
 }
 
 .table-filters {
@@ -626,39 +685,12 @@ figcaption {
   box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.12);
 }
 
-.dt-paging button {
-  min-height: 34px;
-  margin-left: var(--spacing-4);
-  padding: var(--spacing-8) var(--spacing-12);
-  color: var(--color-deep-violet);
-  background: transparent;
-  border: 1px solid var(--color-washed-violet);
-  border-radius: var(--radius-buttons);
-  font: inherit;
-  cursor: pointer;
-}
-
-.dt-paging button.current,
-.dt-paging button:hover {
-  color: var(--color-platinum-white);
-  background: var(--color-deep-violet);
-  border-color: var(--color-deep-violet);
-}
-
 .table-footnote {
   max-width: 980px;
   margin: var(--spacing-16) 0 0;
   color: var(--color-slate-blue);
   font-size: var(--text-body);
   line-height: 1.6;
-}
-
-.dt-paging button.disabled,
-.dt-paging button:disabled {
-  color: var(--color-ghost-gray);
-  background: var(--color-porcelain-white);
-  border-color: var(--color-powder-blue);
-  cursor: not-allowed;
 }
 
 .map-layout {
