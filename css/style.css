@@ -457,6 +457,68 @@ figcaption,
   margin-top: 12px;
 }
 
+/* Adjacent blocks inside .section-main need vertical rhythm. The global
+   reset sets "margin: 0" on headings and paragraphs, which slams the notice,
+   filters, H2 and the table against each other. Re-introduce a consistent
+   stride only between direct siblings. */
+.section-main > * + * {
+  margin-top: 28px;
+}
+
+.section-main > .notice + *,
+.section-main > .table-filters + * {
+  margin-top: 32px;
+}
+
+.section-main > h2 + * {
+  margin-top: 20px;
+}
+
+.section-main > .table-footnote {
+  margin-top: 18px;
+}
+
+/* Wide sections: content spans all 12 columns, metadata sits on a single
+   horizontal strip above the content. Used for data tables that need the
+   full viewport width (columns 1–8 leaves too much empty whitespace on the
+   right when the metadata is short). */
+.swiss-section.wide .section-main,
+.section.wide .section-main {
+  grid-column: 1 / -1;
+}
+
+.swiss-section.wide .meta-sidebar,
+.section.wide .meta-sidebar {
+  grid-column: 1 / -1;
+  margin-bottom: 32px;
+  padding-top: 10px;
+  border-top: 4px solid var(--ink);
+}
+
+.swiss-section.wide .meta-sidebar dl,
+.section.wide .meta-sidebar dl {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0 32px;
+  align-items: start;
+}
+
+.swiss-section.wide .meta-sidebar .section-number,
+.section.wide .meta-sidebar .section-number {
+  margin: 0;
+  grid-column: 1;
+  font-size: clamp(36px, 3.2vw, 52px);
+  line-height: 1;
+}
+
+.swiss-section.wide .meta-sidebar div,
+.section.wide .meta-sidebar div {
+  border-top: none;
+  padding: 0;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
 /* Generic pages: keep columns 1-8 text and columns 9-12 metadata-compatible. */
 .page-hero,
 .section {
