@@ -139,6 +139,8 @@ for (const language of languages) {
   });
 
   const phonologyValues = phonologyByLanguage.get(language.ID) ?? {};
+  // Phonology WALS features (1A, 2A, 13A) are documented in the footnote on
+  // phonology.html; no need to repeat the legend on every row.
   phonologyOutput.push({
     name: language.Name,
     family: language.Family || null,
@@ -146,7 +148,6 @@ for (const language of languages) {
     consonantInventory: phonologyValues.consonantInventory ?? null,
     vowelInventory: phonologyValues.vowelInventory ?? null,
     tones: phonologyValues.tones ?? null,
-    comment: "WALS 1A = Consonant Inventories; 2A = Vowel Quality Inventories; 13A = Tone",
   });
 }
 
