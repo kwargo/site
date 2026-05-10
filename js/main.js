@@ -52,35 +52,71 @@ const families = [
   { name: "Хмонг-мьенская", region: "Южный Китай, Юго-Восточная Азия", languages: 42, speakers: 10, examples: "хмонг, мьен" }
 ];
 
-// Muted journal palette in line with DESIGN.md: ink/graphite neutrals with
-// a single Terra Cotta accent. No gradient-heavy hues.
+// Swiss palette: near-black, hairline rule, and one red accent.
 const topFamilyPalette = [
-  "#141413", // ink black
-  "#3d3d3a", // graphite
-  "#d97757", // terra cotta (accent)
-  "#73726c", // dusty gray
-  "#9c9a92", // stone
-  "#8a6a55", // warm brown
-  "#ccdbe8", // pale azure
-  "#5a6b7a", // slate blue-gray
-  "#b28b68", // sand
-  "#4a5a43"  // olive
+  "#d92121",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a"
 ];
 
-const otherFamilyColor = "#9c9a92"; // stone – subdued catch-all
+const otherFamilyColor = "#d4d4d4";
 
-// Categorical chart palette — muted journal hues that stay within the
-// Anthropic-on-Vellum aesthetic but are still distinct enough to read
-// at a glance. Ordered so adjacent hues never collide.
+// Six macroareas from WALS get six distinct cartographic colours. Muted, atlas-
+// style palette: one red accent, ink black, and four subdued hues. This breaks
+// the strict four-token Swiss rule, but a map legend needs categorical colour
+// to be legible at all — this is the same trade-off printed linguistic atlases
+// make. Keys are the raw English WALS macroareas.
+const macroareaColorMap = {
+  "Africa": "#d92121",         // accent red
+  "Eurasia": "#0a0a0a",        // ink black
+  "Papunesia": "#3d7a5c",      // forest green
+  "Australia": "#c48a1e",      // ochre
+  "North America": "#2c5fa8",  // atlas blue
+  "South America": "#7a3a6b"   // deep plum
+};
+
+const otherMacroareaColor = "#73726c"; // dusty gray for anything without a macroarea
+
+// Categorical charts stay inside the four-token Swiss palette.
 const chartPalette = [
-  "#141413", // ink black
-  "#d97757", // terra cotta
-  "#5a6b7a", // slate blue
+  "#0a0a0a",
+  "#d92121",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a",
+  "#d4d4d4",
+  "#0a0a0a"
+];
+
+// Top-15 languages bar chart uses a proper categorical palette so each bar
+// reads as a distinct language. The strict four-token Swiss palette cannot
+// colour 15 bars without repeating within 3 steps, which defeats the chart.
+// Same trade-off as the WALS atlas map: data that needs per-item colour
+// coding gets per-item colour.
+const barLanguagesPalette = [
+  "#0a0a0a", // ink black
+  "#d92121", // accent red
+  "#2c5fa8", // atlas blue
+  "#3d7a5c", // forest green
+  "#c48a1e", // ochre
+  "#7a3a6b", // deep plum
   "#8a6a55", // warm brown
   "#4a5a43", // olive
   "#b28b68", // sand
+  "#5a6b7a", // slate blue-gray
   "#7d6b8f", // muted plum
-  "#3d3d3a"  // graphite
+  "#6b8e4e", // moss green
+  "#a0522d", // sienna
+  "#4b6788", // steel blue
+  "#8c6e4d"  // taupe
 ];
 
 // WALS field values come from CLDF in English. We keep them untouched in the
@@ -448,6 +484,14 @@ function setupNav() {
   });
 }
 
+function setupChartDefaults() {
+  if (!window.Chart) return;
+  Chart.defaults.color = "#0a0a0a";
+  Chart.defaults.borderColor = "#d4d4d4";
+  Chart.defaults.font.family = "Inter, IBM Plex Sans, Helvetica Neue, Arial, sans-serif";
+  Chart.defaults.font.weight = "400";
+}
+
 function setupImageLightbox() {
   const images = [...document.querySelectorAll(".hero-media img, .image-panel img, .image-strip img")];
   if (images.length === 0) return;
@@ -648,16 +692,23 @@ async function initMap() {
       throw new Error("В data/languages.json нет языков с валидными latitude/longitude.");
     }
 
-    const familyColorMap = getTopFamilyColorMap(mappedLanguages);
+    // Colour markers by WALS macroarea (6 categories) instead of family — the
+    // family-based colouring was illegible because 200+ groups don't fit into
+    // a 3-colour Swiss palette. Macroareas map cleanly onto a categorical one.
+    const macroareaCounts = new Map();
     let markerCount = 0;
 
     mappedLanguages.forEach((language) => {
+      const macroarea = displayValue(language.macroarea);
       const family = displayValue(language.family);
-      const color = familyColorMap.get(family) || otherFamilyColor;
+      const color = macroareaColorMap[macroarea] || otherMacroareaColor;
+
+      macroareaCounts.set(macroarea, (macroareaCounts.get(macroarea) || 0) + 1);
+
       const popupRows = [
         `<strong>${escapeHtml(language.name)}</strong>`,
         `Семья: ${escapeHtml(translate("family", family))}`,
-        `Ареал: ${escapeHtml(translate("macroarea", language.macroarea))}`,
+        `Ареал: ${escapeHtml(translate("macroarea", macroarea))}`,
         `Порядок слов: ${escapeHtml(translate("wordOrder", language.wordOrder))}`
       ];
 
@@ -667,7 +718,7 @@ async function initMap() {
 
       const marker = L.circleMarker([Number(language.latitude), Number(language.longitude)], {
         radius: 5,
-        color: "#faf9f5",
+        color: "#ffffff",
         weight: 1,
         fillColor: color,
         fillOpacity: 0.9
@@ -682,12 +733,21 @@ async function initMap() {
 
     const legend = document.querySelector("#mapLegend");
     if (!legend) return;
-    const legendItems = [...familyColorMap.entries()].map(([family, color]) => ({ family, color }));
-    legendItems.push({ family: "Другие семьи", color: otherFamilyColor });
+    // Order macroareas by how many languages land in each — gives the legend
+    // a natural reading order (largest group first).
+    const legendItems = [...macroareaCounts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([macroarea, count]) => ({
+        label: translate("macroarea", macroarea),
+        color: macroareaColorMap[macroarea] || otherMacroareaColor,
+        count
+      }));
+
     legend.innerHTML = legendItems.map((item) => `
       <div class="legend-item">
         <span class="legend-swatch" style="background:${item.color}"></span>
-        <span>${escapeHtml(translate("family", item.family))}</span>
+        <span>${escapeHtml(item.label)}</span>
+        <span class="legend-count">n&nbsp;=&nbsp;${item.count.toLocaleString("ru-RU")}</span>
       </div>
     `).join("");
   } catch (error) {
@@ -720,9 +780,8 @@ function initTopLanguagesChart() {
   const canvas = document.querySelector("#topLanguagesChart");
   if (!canvas || !window.Chart) return;
   const top = [...chartLanguages].sort((a, b) => b.speakers - a.speakers).slice(0, 15).reverse();
-  // Colour bars with the shared journal palette so languages are visually
-  // distinct without breaking the muted DESIGN.md aesthetic.
-  const barColors = top.map((_, index) => chartPalette[index % chartPalette.length]);
+  // Каждый язык получает уникальный цвет из категориальной палитры.
+  const barColors = top.map((_, index) => barLanguagesPalette[index % barLanguagesPalette.length]);
   new Chart(canvas, {
     type: "bar",
     data: {
@@ -738,10 +797,20 @@ function initTopLanguagesChart() {
     options: {
       indexAxis: "y",
       responsive: true,
-      maintainAspectRatio: false,
+      // Chart.js сам управляет пропорциями canvas — без CSS-хаков с
+      // aspect-ratio, которые ломали попадание курсора в бар.
+      maintainAspectRatio: true,
+      aspectRatio: 4 / 3,
+      // "index" + intersect:false даёт "прилипание" к оси, из-за чего при
+      // наведении показывается соседняя колонка. "nearest" + intersect:true
+      // требует реального попадания курсора на бар — тултип всегда ловит
+      // именно ту колонку, на которую смотришь.
+      interaction: { mode: "nearest", intersect: true, axis: "y" },
       plugins: {
         legend: { display: false },
         tooltip: {
+          mode: "nearest",
+          intersect: true,
           callbacks: {
             label: (context) => `${formatNumber(context.raw)} млн`
           }
@@ -798,26 +867,37 @@ async function initStats() {
     const counts = [...countByField(walsLanguages, "morphType").entries()]
       .sort((a, b) => b[1] - a[1]);
     new Chart(morphologyCanvas, {
-      type: "pie",
+      type: "bar",
       data: {
         labels: counts.map(([label]) => translate("morphType", label)),
         datasets: [{
           label: `WALS 22A: ${morphTypeCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: counts.map(([, count]) => count),
-          backgroundColor: chartPalette,
-          borderColor: "#ffffff",
-          borderWidth: 1
+          // Используем категориальную палитру, чтобы каждая морфологическая
+          // категория читалась как отдельная (в Swiss-4-токенной палитре они
+          // сливались в повторяющиеся чёрный/красный/серый блоки).
+          backgroundColor: counts.map((_, index) => barLanguagesPalette[index % barLanguagesPalette.length]),
+          borderWidth: 0
         }]
       },
       options: {
+        indexAxis: "y",
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
+        aspectRatio: 16 / 9,
+        interaction: { mode: "nearest", intersect: true, axis: "y" },
         plugins: {
+          legend: { display: false },
           tooltip: {
+            mode: "nearest",
+            intersect: true,
             callbacks: {
               label: (context) => `${context.label}: ${context.raw.toLocaleString("ru-RU")}`
             }
           }
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { precision: 0 } }
         }
       }
     });
@@ -845,14 +925,21 @@ async function initStats() {
         datasets: [{
           label: `WALS 81A: ${wordOrderCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: wordOrderStats.map((item) => item.count),
-          backgroundColor: wordOrderStats.map((_, index) => chartPalette[index % chartPalette.length]),
+          // Каждый порядок слов (SOV, SVO, VSO…) получает свой цвет — так
+          // доминирующая группа (SOV/SVO) видна на фоне более редких.
+          backgroundColor: wordOrderStats.map((_, index) => barLanguagesPalette[index % barLanguagesPalette.length]),
           borderWidth: 0
         }]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        maintainAspectRatio: true,
+        aspectRatio: 16 / 9,
+        interaction: { mode: "nearest", intersect: true, axis: "x" },
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: "nearest", intersect: true }
+        },
         scales: {
           y: { beginAtZero: true, ticks: { precision: 0 } }
         }
@@ -863,6 +950,7 @@ async function initStats() {
 
 document.addEventListener("DOMContentLoaded", () => {
   setupNav();
+  setupChartDefaults();
   setupImageLightbox();
   fillTypologyTable();
   fillFamiliesTable();

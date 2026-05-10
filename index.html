@@ -6,11 +6,17 @@
   <title>Языки мира и их типология</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main">К содержанию</a>
+  <div class="grid-overlay" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
   <header class="site-header">
     <nav class="nav" aria-label="Основная навигация">
       <a class="brand" href="index.html">Типология языков</a>
@@ -27,64 +33,196 @@
   </header>
 
   <main id="main">
-    <section class="hero hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">Лингвистическая типология</p>
-        <h1>Языки мира и их типология</h1>
-        <p class="lead">Сайт показывает, как языки можно сравнивать по порядку слов, падежной системе, роду, тональности, эвиденциальности и фонологическим параметрам.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="typology.html">Открыть таблицу</a>
-          <a class="button secondary" href="map.html">Посмотреть карту</a>
+    <section class="hero swiss-section" aria-labelledby="home-title">
+      <div class="section-main hero-copy">
+        <p class="section-kicker">Лингвистическая типология / WALS Online</p>
+        <h1 id="home-title">Языки мира и их типология</h1>
+        <p class="lead">Справочник показывает, как языки сопоставляются по порядку слов, падежной системе, роду, тональности, эвиденциальности и фонологическим инвентарям. Здесь родство и структура разведены: «похожий» язык не обязательно является близким родственником.</p>
+        <p class="text-link-row">
+          <a href="typology.html">Открыть таблицу типологических признаков →</a>
+        </p>
+      </div>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;01</p>
+        <dl>
+          <div>
+            <dt>Корпус</dt>
+            <dd>WALS Online, v2020.4</dd>
+          </div>
+          <div>
+            <dt>Локальная выборка</dt>
+            <dd>n&nbsp;=&nbsp;1&nbsp;614 языков</dd>
+          </div>
+          <div>
+            <dt>Семьи и изоляты</dt>
+            <dd>224 группы</dd>
+          </div>
+          <div>
+            <dt>Редакция</dt>
+            <dd>10&nbsp;мая&nbsp;2026</dd>
+          </div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="section swiss-section" aria-labelledby="contents-title">
+      <div class="section-main">
+        <div class="section-heading">
+          <p class="section-kicker">Содержание корпуса</p>
+          <h2 id="contents-title">Признаки WALS, вынесенные на сайт</h2>
         </div>
+
+        <div class="feature-grid" role="list" aria-label="Оглавление WALS-признаков">
+          <article class="toc-row" role="listitem">
+            <span class="feature-code">81A</span>
+            <h3>Порядок субъекта, объекта и глагола</h3>
+            <p>SOV, SVO, VSO, VOS, OVS, OSV или отсутствие доминирующего порядка.</p>
+            <span class="feature-count">n&nbsp;=&nbsp;1&nbsp;376</span>
+          </article>
+          <article class="toc-row" role="listitem">
+            <span class="feature-code">22A</span>
+            <h3>Глагольный синтез</h3>
+            <p>Число грамматических категорий, выраженных в глагольном слове.</p>
+            <span class="feature-count">n&nbsp;=&nbsp;145</span>
+          </article>
+          <article class="toc-row" role="listitem">
+            <span class="feature-code">49A</span>
+            <h3>Число падежей</h3>
+            <p>От языков без морфологического падежа до систем с 10 и более падежами.</p>
+            <span class="feature-count">n&nbsp;=&nbsp;261</span>
+          </article>
+          <article class="toc-row" role="listitem">
+            <span class="feature-code">31A</span>
+            <h3>Тип родовой системы</h3>
+            <p>Отсутствие рода, род по полу и родовые системы не по полу.</p>
+            <span class="feature-count">n&nbsp;=&nbsp;257</span>
+          </article>
+          <article class="toc-row" role="listitem">
+            <span class="feature-code">13A</span>
+            <h3>Тональность</h3>
+            <p>Нет тонов, простая тональная система или сложная тональная система.</p>
+            <span class="feature-count">n&nbsp;=&nbsp;527</span>
+          </article>
+          <article class="toc-row" role="listitem">
+            <span class="feature-code">77A</span>
+            <h3>Эвиденциальность</h3>
+            <p>Нет грамматической эвиденциальности, минимальные, развитые и смешанные системы.</p>
+            <span class="feature-count">n&nbsp;=&nbsp;375</span>
+          </article>
+          <article class="toc-row" role="listitem">
+            <span class="feature-code">1A</span>
+            <h3>Согласный инвентарь</h3>
+            <p>Малые, средние и крупные системы согласных фонем.</p>
+            <span class="feature-count">n&nbsp;=&nbsp;550</span>
+          </article>
+          <article class="toc-row" role="listitem">
+            <span class="feature-code">2A</span>
+            <h3>Гласный инвентарь</h3>
+            <p>Малые, средние и крупные системы гласных фонем.</p>
+            <span class="feature-count">n&nbsp;=&nbsp;551</span>
+          </article>
+        </div>
+
+        <figure class="data-figure">
+          <figcaption>Рис.&nbsp;1. Оглавление типологических признаков. Источник: WALS Online, v2020.4. n&nbsp;=&nbsp;1&nbsp;614.</figcaption>
+        </figure>
       </div>
-      <figure class="hero-media">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rosetta_Stone.JPG" alt="Розеттский камень как пример многоязычного письменного памятника">
-        <figcaption>Розеттский камень: один из известных примеров сопоставления языков и письменностей.</figcaption>
-      </figure>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;02</p>
+        <dl>
+          <div>
+            <dt>Единица</dt>
+            <dd>язык / признак</dd>
+          </div>
+          <div>
+            <dt>Нотация</dt>
+            <dd>коды WALS: 81A, 22A, 1A</dd>
+          </div>
+          <div>
+            <dt>Переход</dt>
+            <dd><a href="typology.html">Открыть таблицу языков →</a></dd>
+          </div>
+        </dl>
+      </aside>
     </section>
 
-    <section class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Что изучает типология</p>
-        <h2>Сравнение структур, а не родства</h2>
-      </div>
-      <div class="feature-grid">
-        <article class="info-card">
-          <h3>Порядок слов</h3>
-          <p>WALS 81A кодирует базовый порядок субъекта, объекта и глагола: SOV, SVO, VSO, VOS, OVS, OSV или отсутствие доминирующего порядка.</p>
-        </article>
-        <article class="info-card">
-          <h3>Морфология</h3>
-          <p>Морфологические показатели на сайте сопоставлены с WALS 20A и 22A: способ выражения грамматических значений и степень синтеза в глагольном слове.</p>
-        </article>
-        <article class="info-card">
-          <h3>Фонология</h3>
-          <p>Фонологическая страница использует WALS 1A, 2A и 13A: размер согласного инвентаря, качество гласных и наличие тонов.</p>
-        </article>
-      </div>
-    </section>
+    <section class="section split-section swiss-section" aria-labelledby="sources-title">
+      <div class="section-main split-copy">
+        <div>
+          <p class="section-kicker">Источники данных</p>
+          <h2 id="sources-title">Таблицы основаны на открытых лингвистических базах</h2>
+          <p>Типологические значения взяты из WALS Online v2020.4. Семейная классификация сверяется с Glottolog; русские подписи добавлены только на уровне интерфейса, чтобы исходные поля WALS оставались воспроизводимыми.</p>
+          <ul class="source-list">
+            <li>WALS: признаки 81A, 49A, 31A, 13A, 77A, 22A, 1A, 2A.</li>
+            <li>Glottolog: каталог языков, семей и изолятов.</li>
+            <li>Локальные JSON-таблицы: <span>data/languages.json</span> и <span>data/phonology.json</span>.</li>
+          </ul>
+        </div>
 
-    <section class="section split-section">
-      <div>
-        <p class="eyebrow">Источники данных</p>
-        <h2>Таблицы основаны на открытых лингвистических базах</h2>
-        <p>Типологические значения взяты из WALS Online v2020.4. Семейная классификация сверена с Glottolog, а оценки числа носителей округлены по справочным данным Wikipedia и связанным статьям.</p>
-        <ul class="source-list">
-          <li>WALS: признаки 81A, 49A, 30A, 13A, 77A, 20A, 22A, 1A, 2A.</li>
-          <li>Glottolog: общий каталог языков, семей и изолятов.</li>
-          <li>Wikimedia Commons: карты, IPA-таблица и изображения письменностей.</li>
-        </ul>
+        <figure class="chart-panel">
+          <h3>Макроареалы в локальной выборке</h3>
+          <div class="bar-table" aria-label="Распределение языков по макроареалам">
+            <div class="bar-row">
+              <span>Африка</span>
+              <span class="bar-track"><span class="bar-fill is-100"></span></span>
+              <strong>432</strong>
+            </div>
+            <div class="bar-row">
+              <span>Евразия</span>
+              <span class="bar-track"><span class="bar-fill is-84"></span></span>
+              <strong>361</strong>
+            </div>
+            <div class="bar-row">
+              <span>Папунезия</span>
+              <span class="bar-track"><span class="bar-fill is-81"></span></span>
+              <strong>352</strong>
+            </div>
+            <div class="bar-row">
+              <span>Северная Америка</span>
+              <span class="bar-track"><span class="bar-fill is-48"></span></span>
+              <strong>207</strong>
+            </div>
+            <div class="bar-row">
+              <span>Южная Америка</span>
+              <span class="bar-track"><span class="bar-fill is-36"></span></span>
+              <strong>157</strong>
+            </div>
+            <div class="bar-row">
+              <span>Австралия</span>
+              <span class="bar-track"><span class="bar-fill is-24"></span></span>
+              <strong>105</strong>
+            </div>
+          </div>
+          <figcaption>Рис.&nbsp;2. Распределение языков по макроареалам. Источник: WALS Online, v2020.4. n&nbsp;=&nbsp;1&nbsp;614.</figcaption>
+        </figure>
       </div>
-      <figure class="image-panel">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Phoenician_alphabet.svg" alt="Финикийский алфавит">
-        <figcaption>Финикийское письмо как пример исторически значимой алфавитной системы.</figcaption>
-      </figure>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;03</p>
+        <dl>
+          <div>
+            <dt>Автор интерфейса</dt>
+            <dd>редакция сайта</dd>
+          </div>
+          <div>
+            <dt>Метод</dt>
+            <dd>табличное сопоставление</dd>
+          </div>
+          <div>
+            <dt>Следующий раздел</dt>
+            <dd><a href="families.html">Открыть классификацию семей →</a></dd>
+          </div>
+        </dl>
+      </aside>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>Статический справочник. Данные WALS v2020.4, Glottolog 5.3, Wikipedia/Wikimedia Commons.</p>
+    <div class="footer-grid">
+      <p><strong>Колофон.</strong> Шрифт: Inter, веса 400 / 500 / 700. Сетка: 12 колонок, поля 24–48&nbsp;px, контент в колонках 1–8, метаданные в колонках 9–12.</p>
+      <p>Источники: WALS Online v2020.4; Glottolog 5.3; локальные таблицы проекта. Последнее обновление: 10&nbsp;мая&nbsp;2026.</p>
+    </div>
   </footer>
+
   <script src="js/main.js"></script>
 </body>
 </html>

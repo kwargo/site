@@ -6,11 +6,17 @@
   <title>Языковые семьи — Языки мира и их типология</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="families">
   <a class="skip-link" href="#main">К содержанию</a>
+  <div class="grid-overlay" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
   <header class="site-header">
     <nav class="nav" aria-label="Основная навигация">
       <a class="brand" href="index.html">Типология языков</a>
@@ -27,54 +33,157 @@
   </header>
 
   <main id="main">
-    <section class="page-hero">
-      <p class="eyebrow">Генеалогическая классификация</p>
-      <h1>Языковые семьи</h1>
-      <p class="lead">Одна семья объединяет языки, происходящие от общего предка. Типологическое сходство может совпадать с родством, но не обязано совпадать с ним.</p>
+    <section class="page-hero" aria-labelledby="families-title">
+      <div class="section-main">
+        <p class="section-kicker">Генеалогическая классификация</p>
+        <h1 id="families-title">Языковые семьи</h1>
+        <p class="lead">Одна семья объединяет языки, происходящие от общего предка. Типологическое сходство может совпадать с родством, но не обязано совпадать с ним.</p>
+      </div>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;01</p>
+        <dl>
+          <div>
+            <dt>Источник</dt>
+            <dd>Glottolog 5.3; WALS Online, v2020.4</dd>
+          </div>
+          <div>
+            <dt>Единица</dt>
+            <dd>семья / изолят</dd>
+          </div>
+          <div>
+            <dt>Дата</dt>
+            <dd>10&nbsp;мая&nbsp;2026</dd>
+          </div>
+        </dl>
+      </aside>
     </section>
 
-    <section class="section split-section">
-      <div>
-        <h2>Семьи и изоляты в Glottolog</h2>
-        <p>Glottolog 5.3 фиксирует 7 674 живых устных L1-языка, 246 семей и 183 изолята. Таблица ниже дает крупные семьи и типологически значимые группы с примерными масштабами.</p>
+    <section class="section swiss-section" aria-labelledby="glottolog-title">
+      <div class="section-main split-copy">
+        <div>
+          <p class="section-kicker">Glottolog</p>
+          <h2 id="glottolog-title">Семьи и изоляты в каталоге</h2>
+          <p>Glottolog 5.3 фиксирует 7&nbsp;674 живых устных L1-языка, 246 семей и 183 изолята. Таблица ниже дает крупные семьи и типологически значимые группы с примерными масштабами.</p>
+          <p class="text-link-row"><a href="#familiesTable">Перейти к таблице семей →</a></p>
+        </div>
+
+        <figure class="chart-panel">
+          <h3>Крупнейшие семьи по числу языков</h3>
+          <div class="bar-table" aria-label="Крупнейшие семьи Glottolog">
+            <div class="bar-row">
+              <span>Атлантико-конголезская</span>
+              <span class="bar-track"><span class="bar-fill is-100"></span></span>
+              <strong>1&nbsp;410</strong>
+            </div>
+            <div class="bar-row">
+              <span>Австронезийская</span>
+              <span class="bar-track"><span class="bar-fill is-90"></span></span>
+              <strong>1&nbsp;272</strong>
+            </div>
+            <div class="bar-row">
+              <span>Индоевропейская</span>
+              <span class="bar-track"><span class="bar-fill is-41"></span></span>
+              <strong>585</strong>
+            </div>
+            <div class="bar-row">
+              <span>Сино-тибетская</span>
+              <span class="bar-track"><span class="bar-fill is-36"></span></span>
+              <strong>506</strong>
+            </div>
+          </div>
+          <figcaption>Рис.&nbsp;1. Крупнейшие языковые семьи в сводной таблице. Источник: Glottolog 5.3; WALS Online, v2020.4. n&nbsp;=&nbsp;14.</figcaption>
+        </figure>
       </div>
-      <figure class="image-panel">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Human_Language_Families_Map.PNG" alt="Карта языковых семей мира">
-        <figcaption>Карта языковых семей мира с Wikimedia Commons.</figcaption>
-      </figure>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;02</p>
+        <dl>
+          <div>
+            <dt>Поле</dt>
+            <dd>семья, регион, языки, носители</dd>
+          </div>
+          <div>
+            <dt>Ограничение</dt>
+            <dd>численность носителей округлена</dd>
+          </div>
+          <div>
+            <dt>WALS</dt>
+            <dd>родство не равно типологии</dd>
+          </div>
+        </dl>
+      </aside>
     </section>
 
-    <section class="section">
-      <div class="table-wrap">
-        <table class="data-table compact-table" id="familiesTable">
-          <caption>Крупные языковые семьи и группы</caption>
-          <thead>
-            <tr>
-              <th>Семья / группа</th>
-              <th>Регион</th>
-              <th>Языков в Glottolog</th>
-              <th>Носителей, млн</th>
-              <th>Примеры</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+    <section class="section swiss-section" aria-labelledby="families-table-title">
+      <div class="section-main">
+        <div class="table-wrap">
+          <table class="data-table compact-table" id="familiesTable">
+            <caption id="families-table-title">Крупные языковые семьи и группы</caption>
+            <thead>
+              <tr>
+                <th>Семья / группа</th>
+                <th>Регион</th>
+                <th>Языков в Glottolog</th>
+                <th>Носителей, млн</th>
+                <th>Примеры</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="table-footnote">Сноска. Таблица сохраняет исходные названия малых групп там, где нет устойчивого русского эквивалента.</p>
       </div>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;03</p>
+        <dl>
+          <div>
+            <dt>Тип</dt>
+            <dd>таблица</dd>
+          </div>
+          <div>
+            <dt>Сортировка</dt>
+            <dd>по числу языков</dd>
+          </div>
+          <div>
+            <dt>Источник</dt>
+            <dd>Glottolog 5.3; локальная таблица проекта</dd>
+          </div>
+        </dl>
+      </aside>
     </section>
 
-    <section class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Chart.js</p>
-        <h2>Топ-15 языков по числу носителей</h2>
+    <section class="section swiss-section" aria-labelledby="top-languages-title">
+      <div class="section-main">
+        <figure class="chart-panel large">
+          <h3 id="top-languages-title">Топ-15 языков по числу носителей</h3>
+          <canvas id="topLanguagesChart" aria-label="Горизонтальная диаграмма топ-15 языков по числу носителей"></canvas>
+          <figcaption>Рис.&nbsp;2. Топ-15 языков по числу носителей. Источник: локальная справочная таблица проекта; WALS Online, v2020.4. n&nbsp;=&nbsp;15.</figcaption>
+        </figure>
       </div>
-      <div class="chart-panel large">
-        <canvas id="topLanguagesChart" aria-label="Горизонтальная диаграмма топ-15 языков по числу носителей"></canvas>
-      </div>
+      <aside class="meta-sidebar" aria-label="Метаданные раздела">
+        <p class="section-number">§&nbsp;04</p>
+        <dl>
+          <div>
+            <dt>Тип</dt>
+            <dd>горизонтальная диаграмма</dd>
+          </div>
+          <div>
+            <dt>Единица</dt>
+            <dd>млн носителей</dd>
+          </div>
+          <div>
+            <dt>Визуальный код</dt>
+            <dd>категориальная палитра; 15 цветов</dd>
+          </div>
+        </dl>
+      </aside>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>Классификация: Glottolog 5.3; численность носителей округлена по Wikipedia/Ethnologue-таблицам и языковым статьям.</p>
+    <div class="footer-grid">
+      <p><strong>Колофон.</strong> Шрифт: Inter, веса 400 / 500 / 700. Сетка: 12 колонок, контент в колонках 1–8, метаданные в колонках 9–12.</p>
+      <p>Источники: Glottolog 5.3; WALS Online v2020.4; локальные таблицы проекта. Последнее обновление: 10&nbsp;мая&nbsp;2026.</p>
+    </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <script src="js/main.js"></script>
