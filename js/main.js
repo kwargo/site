@@ -69,10 +69,18 @@ const topFamilyPalette = [
 
 const otherFamilyColor = "#9c9a92"; // stone – subdued catch-all
 
-// Reusable chart palette; keeps Chart.js datasets on-brand.
+// Categorical chart palette — muted journal hues that stay within the
+// Anthropic-on-Vellum aesthetic but are still distinct enough to read
+// at a glance. Ordered so adjacent hues never collide.
 const chartPalette = [
-  "#141413", "#3d3d3a", "#d97757", "#73726c",
-  "#9c9a92", "#8a6a55", "#ccdbe8", "#5a6b7a"
+  "#141413", // ink black
+  "#d97757", // terra cotta
+  "#5a6b7a", // slate blue
+  "#8a6a55", // warm brown
+  "#4a5a43", // olive
+  "#b28b68", // sand
+  "#7d6b8f", // muted plum
+  "#3d3d3a"  // graphite
 ];
 
 // WALS field values come from CLDF in English. We keep them untouched in the
@@ -834,7 +842,7 @@ async function initStats() {
         datasets: [{
           label: `WALS 81A: ${wordOrderCount.toLocaleString("ru-RU")} из ${walsLanguages.length.toLocaleString("ru-RU")} языков имеют данные`,
           data: wordOrderStats.map((item) => item.count),
-          backgroundColor: "#141413",
+          backgroundColor: wordOrderStats.map((_, index) => chartPalette[index % chartPalette.length]),
           borderWidth: 0
         }]
       },
