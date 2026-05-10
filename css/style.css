@@ -480,6 +480,15 @@ figcaption {
   font-weight: 400;
 }
 
+.notice.is-error {
+  color: var(--color-midnight-ink);
+  background: rgba(255, 97, 24, 0.08);
+}
+
+.notice.is-error::before {
+  background: var(--color-vibrant-orange);
+}
+
 .table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -752,7 +761,7 @@ figcaption {
 .image-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 1500;
   display: none;
   align-items: center;
   justify-content: center;

@@ -560,9 +560,25 @@ async function initMap() {
     if (legend) {
       legend.textContent = "Не удалось загрузить data/languages.json.";
     }
+    showMapError(error.message);
     console.error("Map loading failed:", error);
-    alert(`Не удалось загрузить данные карты: ${error.message}`);
   }
+}
+
+function showMapError(message) {
+  const layout = document.querySelector(".map-layout");
+  if (!layout) return;
+  const section = layout.closest(".section") || layout.parentElement;
+  if (!section) return;
+
+  let notice = section.querySelector(".map-error");
+  if (!notice) {
+    notice = document.createElement("div");
+    notice.className = "notice is-error map-error";
+    notice.setAttribute("role", "alert");
+    section.insertBefore(notice, layout);
+  }
+  notice.innerHTML = `<strong>Не удалось загрузить карту.</strong> ${escapeHtml(message)}`;
 }
 
 function initTopLanguagesChart() {
