@@ -850,108 +850,16 @@ figcaption {
   line-height: 1.45;
 }
 
+/* ===== Leaflet theme overrides =====
+   Official leaflet.css is loaded on map.html for positioning, zoom
+   animations, touch behaviour, etc. Rules below only restyle visible
+   chrome (zoom control, attribution, popup) to match the site palette. */
+
 .leaflet-container {
-  position: relative;
-  overflow: hidden;
   background: var(--color-powder-blue);
   color: var(--color-midnight-ink);
   font-family: var(--font-sohne-var);
   outline: 0;
-}
-
-.leaflet-pane,
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-tile-container,
-.leaflet-pane > svg,
-.leaflet-pane > canvas,
-.leaflet-zoom-box,
-.leaflet-image-layer,
-.leaflet-layer {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-.leaflet-tile-pane {
-  z-index: 200;
-}
-
-.leaflet-overlay-pane {
-  z-index: 400;
-}
-
-.leaflet-shadow-pane {
-  z-index: 500;
-}
-
-.leaflet-marker-pane {
-  z-index: 600;
-}
-
-.leaflet-tooltip-pane {
-  z-index: 650;
-}
-
-.leaflet-popup-pane {
-  z-index: 700;
-}
-
-.leaflet-map-pane svg,
-.leaflet-map-pane canvas {
-  z-index: 400;
-}
-
-.leaflet-overlay-pane svg {
-  pointer-events: none;
-}
-
-.leaflet-overlay-pane svg path.leaflet-interactive {
-  pointer-events: auto;
-}
-
-.leaflet-container img,
-.leaflet-container .leaflet-tile {
-  max-width: none;
-}
-
-.leaflet-tile {
-  user-select: none;
-}
-
-.leaflet-top,
-.leaflet-bottom {
-  position: absolute;
-  z-index: 1000;
-  pointer-events: none;
-}
-
-.leaflet-top {
-  top: 0;
-}
-
-.leaflet-bottom {
-  bottom: 0;
-}
-
-.leaflet-left {
-  left: 0;
-}
-
-.leaflet-right {
-  right: 0;
-}
-
-.leaflet-control {
-  position: relative;
-  z-index: 800;
-  margin: var(--spacing-12);
-  pointer-events: auto;
 }
 
 .leaflet-control-attribution {
@@ -963,14 +871,16 @@ figcaption {
   box-shadow: var(--shadow-sm);
 }
 
+.leaflet-bar,
 .leaflet-control-zoom {
   overflow: hidden;
+  border: 0;
   border-radius: var(--radius-buttons);
   box-shadow: var(--shadow-sm);
 }
 
+.leaflet-bar a,
 .leaflet-control-zoom a {
-  display: block;
   width: 34px;
   height: 34px;
   color: var(--color-midnight-ink);
@@ -981,19 +891,15 @@ figcaption {
   text-align: center;
 }
 
+.leaflet-bar a:last-child,
 .leaflet-control-zoom a:last-child {
   border-bottom: 0;
 }
 
+.leaflet-bar a:hover,
 .leaflet-control-zoom a:hover {
   color: var(--color-platinum-white);
   background: var(--color-deep-violet);
-}
-
-.leaflet-popup {
-  position: absolute;
-  margin-bottom: 20px;
-  text-align: center;
 }
 
 .leaflet-popup-content-wrapper {
@@ -1018,27 +924,9 @@ figcaption {
   font-weight: 400;
 }
 
-.leaflet-popup-tip-container {
-  position: absolute;
-  left: 50%;
-  width: 40px;
-  height: 20px;
-  margin-left: -20px;
-  overflow: hidden;
-  pointer-events: none;
-}
-
 .leaflet-popup-tip {
-  width: 14px;
-  height: 14px;
-  margin: -8px auto 0;
   background: var(--color-platinum-white);
   box-shadow: var(--shadow-sm);
-  transform: rotate(45deg);
-}
-
-.leaflet-interactive {
-  cursor: pointer;
 }
 
 .chart-grid {
