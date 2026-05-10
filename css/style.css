@@ -44,6 +44,9 @@ body {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gutter);
+  /* Keep overlay quiet: very low contrast so it reads as a reference grid,
+     not as extra vertical rules fighting the content. */
+  opacity: 0.35;
 }
 
 .grid-overlay span {
@@ -170,10 +173,12 @@ main {
 
 .section-main {
   grid-column: 1 / span 8;
+  min-width: 0;
 }
 
 .meta-sidebar {
   grid-column: 9 / span 4;
+  min-width: 0;
   align-self: start;
   border-top: 4px solid var(--ink);
   padding-top: 12px;
@@ -687,12 +692,20 @@ figcaption,
 
 .legend-item {
   display: grid;
-  grid-template-columns: 18px 1fr;
+  grid-template-columns: 18px 1fr auto;
   gap: 10px;
   align-items: center;
   padding: 9px 0;
   border-bottom: 1px solid var(--rule);
   font-size: 13px;
+}
+
+.legend-count {
+  justify-self: end;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
 }
 
 .chart-grid .chart-panel {

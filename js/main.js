@@ -68,6 +68,22 @@ const topFamilyPalette = [
 
 const otherFamilyColor = "#d4d4d4";
 
+// Six macroareas from WALS get six distinct cartographic colours. Muted, atlas-
+// style palette: one red accent, ink black, and four subdued hues. This breaks
+// the strict four-token Swiss rule, but a map legend needs categorical colour
+// to be legible at all — this is the same trade-off printed linguistic atlases
+// make. Keys are the raw English WALS macroareas.
+const macroareaColorMap = {
+  "Africa": "#d92121",         // accent red
+  "Eurasia": "#0a0a0a",        // ink black
+  "Papunesia": "#3d7a5c",      // forest green
+  "Australia": "#c48a1e",      // ochre
+  "North America": "#2c5fa8",  // atlas blue
+  "South America": "#7a3a6b"   // deep plum
+};
+
+const otherMacroareaColor = "#73726c"; // dusty gray for anything without a macroarea
+
 // Categorical charts stay inside the four-token Swiss palette.
 const chartPalette = [
   "#0a0a0a",
@@ -653,16 +669,23 @@ async function initMap() {
       throw new Error("В data/languages.json нет языков с валидными latitude/longitude.");
     }
 
-    const familyColorMap = getTopFamilyColorMap(mappedLanguages);
+    // Colour markers by WALS macroarea (6 categories) instead of family — the
+    // family-based colouring was illegible because 200+ groups don't fit into
+    // a 3-colour Swiss palette. Macroareas map cleanly onto a categorical one.
+    const macroareaCounts = new Map();
     let markerCount = 0;
 
     mappedLanguages.forEach((language) => {
+      const macroarea = displayValue(language.macroarea);
       const family = displayValue(language.family);
-      const color = familyColorMap.get(family) || otherFamilyColor;
+      const color = macroareaColorMap[macroarea] || otherMacroareaColor;
+
+      macroareaCounts.set(macroarea, (macroareaCounts.get(macroarea) || 0) + 1);
+
       const popupRows = [
         `<strong>${escapeHtml(language.name)}</strong>`,
         `Семья: ${escapeHtml(translate("family", family))}`,
-        `Ареал: ${escapeHtml(translate("macroarea", language.macroarea))}`,
+        `Ареал: ${escapeHtml(translate("macroarea", macroarea))}`,
         `Порядок слов: ${escapeHtml(translate("wordOrder", language.wordOrder))}`
       ];
 
@@ -687,12 +710,21 @@ async function initMap() {
 
     const legend = document.querySelector("#mapLegend");
     if (!legend) return;
-    const legendItems = [...familyColorMap.entries()].map(([family, color]) => ({ family, color }));
-    legendItems.push({ family: "Другие семьи", color: otherFamilyColor });
+    // Order macroareas by how many languages land in each — gives the legend
+    // a natural reading order (largest group first).
+    const legendItems = [...macroareaCounts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([macroarea, count]) => ({
+        label: translate("macroarea", macroarea),
+        color: macroareaColorMap[macroarea] || otherMacroareaColor,
+        count
+      }));
+
     legend.innerHTML = legendItems.map((item) => `
       <div class="legend-item">
         <span class="legend-swatch" style="background:${item.color}"></span>
-        <span>${escapeHtml(translate("family", item.family))}</span>
+        <span>${escapeHtml(item.label)}</span>
+        <span class="legend-count">n&nbsp;=&nbsp;${item.count.toLocaleString("ru-RU")}</span>
       </div>
     `).join("");
   } catch (error) {
