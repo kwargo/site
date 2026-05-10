@@ -218,13 +218,16 @@ h3 {
 h1 {
   max-width: 980px;
   font-size: clamp(72px, 8.2vw, 120px);
-  line-height: 0.95;
+  /* line-height must be >= 1.0; anything tighter lets Cyrillic descenders
+     ("р", "у", "ц") extend below the line-box and visually crash into the
+     next element. */
+  line-height: 1.0;
 }
 
 h2 {
   max-width: 860px;
   font-size: clamp(40px, 4.8vw, 78px);
-  line-height: 0.98;
+  line-height: 1.06;
 }
 
 h3 {
@@ -234,7 +237,7 @@ h3 {
 
 .lead {
   max-width: 760px;
-  margin-top: 28px;
+  margin-top: 40px;
   font-size: clamp(22px, 2vw, 30px);
   line-height: 1.18;
 }
@@ -470,8 +473,13 @@ figcaption,
   margin-top: 32px;
 }
 
+/* Большие заголовки (h1/h2) почти с нулевым сверху/снизу по line-height.
+   После них нужен увеличенный отступ, иначе нижние хвосты букв («р», «у»,
+   «ц») визуально прилипают к следующему блоку — то, что пользователь
+   называет «заголовок наезжает на параграф». */
+.section-main > h1 + *,
 .section-main > h2 + * {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .section-main > .table-footnote {
